@@ -29,6 +29,9 @@ namespace ThatGameJam.Level
         [SerializeField] private int scenerySortingOrder = -50;
         [SerializeField] private int platformSortingOrder = 0;
 
+        [Header("实例化")]
+        [SerializeField] private bool resetPartTransform = true;
+
         public LevelDefinition Current { get; private set; }
         public int CurrentIndex { get; private set; } = -1;
         public LevelRoot Root { get; private set; }
@@ -160,6 +163,12 @@ namespace ThatGameJam.Level
             Current = definition;
             CurrentIndex = index;
 
+            if (backgroundPart == null) Debug.LogWarning($"[关卡] {definition.name} 未配置 背景。", definition);
+            if (platformPart == null) Debug.LogWarning($"[关卡] {definition.name} 未配置 平台。", definition);
+            if (sceneryPart == null) Debug.LogWarning($"[关卡] {definition.name} 未配置 外景。", definition);
+
+            Debug.Log($"[关卡] 已加载 {definition.name}，挂载点世界坐标 {levelParent.position}");
+
             PlayMusic(definition.Music);
 
             LevelLoaded?.Invoke(definition);
@@ -172,6 +181,12 @@ namespace ThatGameJam.Level
 
             GameObject instance = Instantiate(prefab, parent);
             instance.name = partName;
+
+            if (resetPartTransform)
+            {
+                instance.transform.localPosition = Vector3.zero;
+                instance.transform.localRotation = Quaternion.identity;
+            }
 
             if (applySortingOrder)
             {
