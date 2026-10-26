@@ -8,10 +8,6 @@ using UnityEngine;
 
 namespace ThatGameJam.Level.EditorTools
 {
-    /// <summary>
-    /// 关卡系统初始化工具：一键生成数据资产、玩法场景与示例关卡，
-    /// 避免手工创建/注册关卡时漏项。
-    /// </summary>
     public static class LevelSetupTools
     {
         const string ProjectRoot = "Assets/_Project";
@@ -44,8 +40,7 @@ namespace ThatGameJam.Level.EditorTools
             Debug.Log("[关卡] 初始化完成\n" +
                       $"  · 关卡总表：{RegistryPath}\n" +
                       $"  · 示例关卡：{LevelsFolder}/Level_01.asset\n" +
-                      $"  · 玩法场景：{GameScenePath}\n" +
-                      "下一步：把 背景 / 平台 / 外景 Prefab 与音乐拖进 Level_01 的配置面板。");
+                      $"  · 玩法场景：{GameScenePath}");
         }
 
         [MenuItem("Tools/横版跳跃/② 新建关卡配置", false, 2)]

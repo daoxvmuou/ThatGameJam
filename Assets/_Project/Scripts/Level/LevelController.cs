@@ -3,27 +3,18 @@ using UnityEngine;
 
 namespace ThatGameJam.Level
 {
-    /// <summary>
-    /// 关卡运行时编排：负责加载 / 重载 / 卸载关卡，并切换背景音乐。
-    /// 单 Game 场景常驻，关卡内容以「背景 + 平台 + 外景」三个 Prefab 实例化的方式装配，
-    /// 因此切换关卡没有任何场景加载开销。
-    /// </summary>
     [DisallowMultipleComponent]
     public class LevelController : MonoBehaviour
     {
         public static LevelController Instance { get; private set; }
 
-        /// <summary>关卡加载完成（部件已实例化、音乐已开始播放）。</summary>
         public static event Action<LevelDefinition> LevelLoaded;
-
-        /// <summary>关卡卸载完成。</summary>
         public static event Action<LevelDefinition> LevelUnloaded;
 
         [Header("关卡数据")]
         [SerializeField] private LevelRegistry registry;
 
         [Header("挂载点")]
-        [Tooltip("关卡内容实例化的父节点，留空则使用自身")]
         [SerializeField] private Transform levelParent;
 
         [Header("音乐")]
@@ -33,7 +24,6 @@ namespace ThatGameJam.Level
         [SerializeField] private bool loadFirstLevelOnStart = true;
 
         [Header("层级顺序")]
-        [Tooltip("勾选后统一设置各部件根节点的 SpriteRenderer.sortingOrder")]
         [SerializeField] private bool applySortingOrder = true;
         [SerializeField] private int backgroundSortingOrder = -100;
         [SerializeField] private int scenerySortingOrder = -50;
@@ -73,7 +63,6 @@ namespace ThatGameJam.Level
             if (Instance == this) Instance = null;
         }
 
-        /// <summary>按关卡总表中的序号加载。</summary>
         public bool Load(int index)
         {
             if (registry == null)
@@ -92,7 +81,6 @@ namespace ThatGameJam.Level
             return LoadInternal(definition, index);
         }
 
-        /// <summary>直接加载指定关卡配置。</summary>
         public bool Load(LevelDefinition definition)
         {
             if (definition == null)
@@ -123,7 +111,6 @@ namespace ThatGameJam.Level
             return LoadInternal(definition, registry.IndexOf(definition));
         }
 
-        /// <summary>重新加载当前关卡（清空并重建所有关卡内容）。</summary>
         public void Restart()
         {
             if (Current == null)
@@ -135,7 +122,6 @@ namespace ThatGameJam.Level
             LoadInternal(Current, CurrentIndex);
         }
 
-        /// <summary>卸载当前关卡，销毁全部关卡内容并停止音乐。</summary>
         public void Unload()
         {
             LevelDefinition previous = Current;

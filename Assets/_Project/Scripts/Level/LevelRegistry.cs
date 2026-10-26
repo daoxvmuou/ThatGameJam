@@ -3,10 +3,6 @@ using UnityEngine;
 
 namespace ThatGameJam.Level
 {
-    /// <summary>
-    /// 关卡总表：记录关卡顺序，供 LevelController 按序号加载。
-    /// 新增关卡时只需把 LevelDefinition 拖进列表。
-    /// </summary>
     [CreateAssetMenu(fileName = "LevelRegistry", menuName = "横版跳跃/关卡总表", order = 1)]
     public class LevelRegistry : ScriptableObject
     {
@@ -21,7 +17,6 @@ namespace ThatGameJam.Level
             return levels[index];
         }
 
-        /// <summary>按资源名查找关卡（LevelDefinition 的资源名即关卡名）。</summary>
         public LevelDefinition GetByName(string levelName)
         {
             if (string.IsNullOrEmpty(levelName)) return null;

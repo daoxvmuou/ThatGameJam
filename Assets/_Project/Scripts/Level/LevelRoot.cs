@@ -2,10 +2,6 @@ using UnityEngine;
 
 namespace ThatGameJam.Level
 {
-    /// <summary>
-    /// 关卡实例根节点：由 LevelController 在加载时创建，持有三个部件实例的引用。
-    /// 其他模块（玩家、相机等）需要定位关卡内容时从这里取，不要用 Find。
-    /// </summary>
     public class LevelRoot : MonoBehaviour
     {
         [SerializeField] private GameObject background;
