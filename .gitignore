@@ -8,6 +8,10 @@
 /[Mm]emoryCaptures/
 /[Rr]ecordings/
 
+# Unity-generated project settings (version-dependent)
+/[Pp]rojectSettings/boot.config
+/[Pp]rojectSettings/AutoStreamingSettings.asset
+
 !/[Aa]ssets/**/*.meta
 
 *.csproj
