@@ -1,0 +1,830 @@
+{
+  "conversations": [
+    {
+      "number": 1,
+      "frogName": "觉觉",
+      "lines": [
+        {
+          "player": false,
+          "text": "你好，亲爱的孩子，我叫觉觉，是镜子世界的拥抱青蛙。觉觉会通过对话，在镜子世界帮你寻找一些指引。"
+        },
+        {
+          "player": false,
+          "text": "觉觉怎么才能帮到你呢？"
+        },
+        {
+          "player": true,
+          "text": "你好，觉觉。我最近总是不开心，却说不出为什么。"
+        },
+        {
+          "player": false,
+          "text": "你有没有认真问过自己，你到底怎么了？"
+        },
+        {
+          "player": true,
+          "text": "我好像总是在照顾别人，却不知道自己想要什么。"
+        },
+        {
+          "player": false,
+          "text": "那今天，我们先不急着解决问题。你愿意听听自己的心声吗？"
+        },
+        {
+          "player": true,
+          "text": "愿意。"
+        },
+        {
+          "player": true,
+          "text": "让我想一会，此时此刻，我真正的感受是什么？"
+        },
+        {
+          "player": false,
+          "text": "亲爱的孩子，我看见你的疲惫，也看见你的委屈。你现在还好吗？"
+        },
+        {
+          "player": true,
+          "text": "是的，我想，我得允许自己拥有真实的情绪，和愿意倾听自己。"
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "frogName": "心晴晴",
+      "lines": [
+        {
+          "player": false,
+          "text": "你好，亲爱的孩子，我叫心晴晴，是一只情绪精灵。心晴晴会通过对话，在镜子世界帮你寻找一些指引。"
+        },
+        {
+          "player": false,
+          "text": "你最近感觉怎么样？"
+        },
+        {
+          "player": true,
+          "text": "你好，心晴晴。我不喜欢生气、难过和焦虑的自己。"
+        },
+        {
+          "player": false,
+          "text": "为什么？"
+        },
+        {
+          "player": true,
+          "text": "因为我觉得这些情绪说明我不够好。"
+        },
+        {
+          "player": false,
+          "text": "如果情绪不是错误，而是在告诉你一些事情呢？"
+        },
+        {
+          "player": true,
+          "text": "比如？"
+        },
+        {
+          "player": false,
+          "text": "愤怒可能在提醒你边界被侵犯，悲伤可能在告诉你失去了重要的东西。"
+        },
+        {
+          "player": true,
+          "text": "原来情绪也有它的意义。"
+        },
+        {
+          "player": false,
+          "text": "是的，每一种情绪都值得被理解。"
+        },
+        {
+          "player": true,
+          "text": "嗯嗯，我愿意听懂情绪，而不是压抑情绪。"
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "frogName": "悠悠",
+      "lines": [
+        {
+          "player": false,
+          "text": "你好，亲爱的孩子，我叫悠悠。悠悠会通过对话，在镜子世界帮你寻找一些指引。"
+        },
+        {
+          "player": true,
+          "text": "你好，悠悠。我总害怕别人不喜欢我。"
+        },
+        {
+          "player": false,
+          "text": "如果别人不满意，你会怎么样？"
+        },
+        {
+          "player": true,
+          "text": "我会觉得自己做错了。"
+        },
+        {
+          "player": false,
+          "text": "你是不是从小就习惯做一个听话、懂事、让别人满意的人？"
+        },
+        {
+          "player": true,
+          "text": "是的，我总希望别人认可我。"
+        },
+        {
+          "player": false,
+          "text": "那么今天，你愿意试着问问自己：我真正想要什么？"
+        },
+        {
+          "player": true,
+          "text": "我愿意。"
+        },
+        {
+          "player": true,
+          "text": "我想，我不必通过讨好别人来证明自己的价值。"
+        },
+        {
+          "player": true,
+          "text": "我有权利做真实的自己。"
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "frogName": "初初",
+      "lines": [
+        {
+          "player": false,
+          "text": "你好，亲爱的孩子，我叫初初。初初会通过对话，在镜子世界帮你寻找一些指引。"
+        },
+        {
+          "player": true,
+          "text": "你好，初初。我做事情总怕犯错。"
+        },
+        {
+          "player": false,
+          "text": "犯错对你意味着什么？"
+        },
+        {
+          "player": true,
+          "text": "意味着被批评、不被喜欢。"
+        },
+        {
+          "player": false,
+          "text": "小时候犯错时，你得到的是理解，还是责备？"
+        },
+        {
+          "player": true,
+          "text": "更多时候是责备。"
+        },
+        {
+          "player": false,
+          "text": "你需要先变得完美？才能被爱吗？"
+        },
+        {
+          "player": true,
+          "text": "好像一直都是这样认为的。"
+        },
+        {
+          "player": false,
+          "text": "现在的你已经长大了，可以学习用不同的方式对待自己。"
+        },
+        {
+          "player": true,
+          "text": "嗯，我不需要再用惩罚自己的方式成长。"
+        },
+        {
+          "player": true,
+          "text": "即使犯错，我依然值得被爱。"
+        },
+        {
+          "player": false,
+          "text": "是的，你不需要证明自己的价值。天生值得拥有爱，不需要向任何人证明。"
+        },
+        {
+          "player": true,
+          "text": "是的，我本来就值得被爱。"
+        },
+        {
+          "player": false,
+          "text": "允许自己不完美，也允许自己成长。"
+        }
+      ]
+    },
+    {
+      "number": 5,
+      "frogName": "绵绵",
+      "lines": [
+        {
+          "player": false,
+          "text": "你好，亲爱的孩子，我叫绵绵。绵绵会通过对话，在镜子世界帮你寻找一些指引。"
+        },
+        {
+          "player": true,
+          "text": "你好，绵绵。为什么有时候别人一句话，就能让我特别难过？"
+        },
+        {
+          "player": false,
+          "text": "也许那句话触碰了你过去的某种伤痛。"
+        },
+        {
+          "player": true,
+          "text": "我该怎么办？"
+        },
+        {
+          "player": false,
+          "text": "试着看看那个曾经受伤的自己。"
+        },
+        {
+          "player": true,
+          "text": "嗯，我想抱抱小时候的我。"
+        },
+        {
+          "player": false,
+          "text": "是的，可以告诉他，你现在长大了，你会保护自己。"
+        },
+        {
+          "player": true,
+          "text": "我愿意成为自己的支持者和守护者。"
+        }
+      ]
+    },
+    {
+      "number": 6,
+      "frogName": "闪闪",
+      "lines": [
+        {
+          "player": false,
+          "text": "你好，亲爱的孩子，我叫闪闪。闪闪会通过对话，在镜子世界帮你寻找一些指引。"
+        },
+        {
+          "player": true,
+          "text": "你好，闪闪。我总希望别人夸奖我。"
+        },
+        {
+          "player": false,
+          "text": "如果没有人夸奖，你就觉得自己不好吗？"
+        },
+        {
+          "player": true,
+          "text": "好像是这样。"
+        },
+        {
+          "player": false,
+          "text": "那么你的价值，是不是一直交给别人决定？"
+        },
+        {
+          "player": true,
+          "text": "是的。"
+        },
+        {
+          "player": false,
+          "text": "现在，你愿意把评价自己的权利拿回来吗？"
+        },
+        {
+          "player": true,
+          "text": "愿意，我要学会欣赏自己。"
+        },
+        {
+          "player": true,
+          "text": "（说出自己三个值得欣赏的地方），我的价值不需要由别人来决定。"
+        }
+      ]
+    },
+    {
+      "number": 7,
+      "frogName": "圆圆",
+      "lines": [
+        {
+          "player": false,
+          "text": "你好，亲爱的孩子，我叫圆圆。圆圆会通过对话，在镜子世界帮你寻找一些指引。"
+        },
+        {
+          "player": true,
+          "text": "你好，圆圆。我发现自己有很多缺点。"
+        },
+        {
+          "player": false,
+          "text": "那你有没有发现自己的优点？"
+        },
+        {
+          "player": true,
+          "text": "好像很少关注。"
+        },
+        {
+          "player": false,
+          "text": "你不需要只爱那个优秀的自己。"
+        },
+        {
+          "player": true,
+          "text": "那我也可以爱那个脆弱、敏感、不完美的自己吗？"
+        },
+        {
+          "player": false,
+          "text": "当然。"
+        },
+        {
+          "player": true,
+          "text": "嗯，从今天开始，我愿意完整地接纳自己。"
+        },
+        {
+          "player": true,
+          "text": "无论我是什么样子，我都值得被爱。"
+        }
+      ]
+    },
+    {
+      "number": 8,
+      "frogName": "予新新",
+      "lines": [
+        {
+          "player": false,
+          "text": "你好，亲爱的孩子，我叫予新新。予新新会通过对话，在镜子世界帮你寻找一些指引。"
+        },
+        {
+          "player": true,
+          "text": "你好，予新新。我总是后悔过去做过的事情。"
+        },
+        {
+          "player": false,
+          "text": "当时的你，是否已经尽了自己所能？"
+        },
+        {
+          "player": true,
+          "text": "是的，只是现在看来很不成熟。"
+        },
+        {
+          "player": false,
+          "text": "你可以从过去学习，但不必永远惩罚过去的自己。"
+        },
+        {
+          "player": true,
+          "text": "嗯，我愿意原谅自己。我原谅过去的自己，允许自己重新开始。"
+        }
+      ]
+    },
+    {
+      "number": 9,
+      "frogName": "和和",
+      "lines": [
+        {
+          "player": false,
+          "text": "你好，亲爱的孩子，我叫和和。和和会通过对话，在镜子世界帮你寻找一些指引。"
+        },
+        {
+          "player": true,
+          "text": "你好，和和。我总觉得自己应该成为别人期待的样子。"
+        },
+        {
+          "player": false,
+          "text": "那么，你自己期待的生活是什么？"
+        },
+        {
+          "player": true,
+          "text": "我好像从来没有认真想过。"
+        },
+        {
+          "player": false,
+          "text": "你的人生，真的只能按照别人的剧本演吗？"
+        },
+        {
+          "player": true,
+          "text": "不，我想为自己做选择。"
+        },
+        {
+          "player": false,
+          "text": "如果不需要任何人的认可，你最想过怎样的生活？"
+        },
+        {
+          "player": true,
+          "text": "我想，我有权利书写自己的人生。"
+        }
+      ]
+    },
+    {
+      "number": 10,
+      "frogName": "小篱",
+      "lines": [
+        {
+          "player": false,
+          "text": "你好，亲爱的孩子，我叫小篱。小篱会通过对话，在镜子世界帮你寻找一些指引。"
+        },
+        {
+          "player": true,
+          "text": "你好，小篱。我总是不敢拒绝别人。"
+        },
+        {
+          "player": false,
+          "text": "每次答应别人，你的内心真的愿意吗？"
+        },
+        {
+          "player": true,
+          "text": "很多时候并不愿意。"
+        },
+        {
+          "player": false,
+          "text": "那么你为什么不拒绝？"
+        },
+        {
+          "player": true,
+          "text": "我害怕别人失望。"
+        },
+        {
+          "player": false,
+          "text": "别人的失望，不代表你做错了。"
+        },
+        {
+          "player": true,
+          "text": "嗯，我可以善良，也可以有自己的边界。"
+        },
+        {
+          "player": true,
+          "text": "拒绝不合理的要求，不代表我不够善良。我得尊重自己的需要和边界。"
+        }
+      ]
+    },
+    {
+      "number": 11,
+      "frogName": "轻轻",
+      "lines": [
+        {
+          "player": false,
+          "text": "你好，亲爱的孩子，我叫轻轻。轻轻会通过对话，在镜子世界帮你寻找一些指引。"
+        },
+        {
+          "player": true,
+          "text": "你好，轻轻。有些伤害，我一直记在心里。"
+        },
+        {
+          "player": false,
+          "text": "嗯，那你还想让过去继续影响今天吗？"
+        },
+        {
+          "player": true,
+          "text": "不想，但我真的很难放下。"
+        },
+        {
+          "player": false,
+          "text": "你可以承认自己受过伤，也可以慢慢找回自己的力量。"
+        },
+        {
+          "player": true,
+          "text": "嗯，我不必为别人的行为继续惩罚自己。"
+        },
+        {
+          "player": true,
+          "text": "「我承认自己的痛苦，也允许自己慢慢放下。」"
+        },
+        {
+          "player": true,
+          "text": "我不再让过去决定我的未来。"
+        }
+      ]
+    },
+    {
+      "number": 12,
+      "frogName": "聆",
+      "lines": [
+        {
+          "player": false,
+          "text": "你好，亲爱的孩子，我叫聆。聆会通过对话，在镜子世界帮你寻找一些指引。"
+        },
+        {
+          "player": true,
+          "text": "你好，聆。我总觉得自己不够努力。"
+        },
+        {
+          "player": false,
+          "text": "你是不是经常在心里责备自己？"
+        },
+        {
+          "player": true,
+          "text": "是的，我害怕一放松就会变得懒惰。"
+        },
+        {
+          "player": false,
+          "text": "如果成长也可以来自鼓励，而不是责骂呢？"
+        },
+        {
+          "player": true,
+          "text": "哦，原来我可以温柔地要求自己。"
+        },
+        {
+          "player": true,
+          "text": "（当内心出现批评时，换成一句鼓励。我用理解和鼓励代替苛责。）"
+        }
+      ]
+    },
+    {
+      "number": 13,
+      "frogName": "安禾",
+      "lines": [
+        {
+          "player": false,
+          "text": "你好，亲爱的孩子，我叫安禾。安禾会通过对话，在镜子世界帮你寻找一些指引。"
+        },
+        {
+          "player": true,
+          "text": "你好，安禾。我总希望有人理解我、照顾我。"
+        },
+        {
+          "player": false,
+          "text": "你有没有认真照顾过自己？"
+        },
+        {
+          "player": true,
+          "text": "好像总是忽略自己。"
+        },
+        {
+          "player": false,
+          "text": "你可以期待别人给予爱，也可以主动给自己关怀。"
+        },
+        {
+          "player": true,
+          "text": "我愿意先学会照顾自己的感受。"
+        },
+        {
+          "player": false,
+          "text": "今天，你可以为自己做一件什么温暖的小事呢？"
+        },
+        {
+          "player": true,
+          "text": "嗯，我想，我值得被照顾，我也有能力照顾自己。"
+        }
+      ]
+    },
+    {
+      "number": 14,
+      "frogName": "心屿",
+      "lines": [
+        {
+          "player": false,
+          "text": "你好，亲爱的孩子，我叫心屿。心屿会通过对话，在镜子世界帮你寻找一些指引。"
+        },
+        {
+          "player": true,
+          "text": "你好，心屿。为什么我的生活总是不如意？"
+        },
+        {
+          "player": false,
+          "text": "你觉得自己对生活完全没有选择权吗？"
+        },
+        {
+          "player": true,
+          "text": "有时候我觉得自己无能为力。"
+        },
+        {
+          "player": false,
+          "text": "过去发生的事情，你未必能够选择，但现在如何回应，你可以慢慢学习选择。"
+        },
+        {
+          "player": true,
+          "text": "嗯，我不再只等待别人改变，我也愿意为自己的人生负责。"
+        },
+        {
+          "player": true,
+          "text": "我想一下，今天，有哪一件事是我可以主动改变的？我有能力为自己的人生做出新的选择。"
+        }
+      ]
+    },
+    {
+      "number": 15,
+      "frogName": "沐沐",
+      "lines": [
+        {
+          "player": false,
+          "text": "你好，亲爱的孩子，我叫沐沐。沐沐会通过对话，在镜子世界帮你寻找一些指引。"
+        },
+        {
+          "player": true,
+          "text": "你好，沐沐。为什么我总担心别人不爱我？"
+        },
+        {
+          "player": false,
+          "text": "你是否把别人的爱，当成自己价值的证明？"
+        },
+        {
+          "player": true,
+          "text": "是的。我害怕受伤。"
+        },
+        {
+          "player": false,
+          "text": "真正健康的爱，不需要你失去自己。"
+        },
+        {
+          "player": false,
+          "text": "你可以在爱中保持自己，也可以慢慢建立信任。"
+        },
+        {
+          "player": true,
+          "text": "嗯，我愿意在爱别人时，也不忘记爱自己。"
+        }
+      ]
+    },
+    {
+      "number": 16,
+      "frogName": "盈盈",
+      "lines": [
+        {
+          "player": false,
+          "text": "你好，亲爱的孩子，我叫盈盈。盈盈会通过对话，在镜子世界帮你寻找一些指引。"
+        },
+        {
+          "player": true,
+          "text": "你好，盈盈。我总觉得自己不够富足。"
+        },
+        {
+          "player": false,
+          "text": "你有没有看见自己已经有的东西？"
+        },
+        {
+          "player": true,
+          "text": "我好像总是关注缺少点什么。"
+        },
+        {
+          "player": false,
+          "text": "你可以重新审视这些限制自己的信念。"
+        },
+        {
+          "player": true,
+          "text": "嗯，我愿意看见生活中的每一份丰盛。"
+        }
+      ]
+    },
+    {
+      "number": 17,
+      "frogName": "跃跃",
+      "lines": [
+        {
+          "player": false,
+          "text": "你好，亲爱的孩子，我叫跃跃。跃跃会通过对话，在镜子世界帮你寻找一些指引。"
+        },
+        {
+          "player": true,
+          "text": "你好，跃跃。我想做很多事情，却总是害怕失败。"
+        },
+        {
+          "player": false,
+          "text": "你是否要求自己一开始就必须成功？"
+        },
+        {
+          "player": true,
+          "text": "是的。"
+        },
+        {
+          "player": false,
+          "text": "你可以允许自己从不会到会，从不熟悉到熟悉。"
+        },
+        {
+          "player": true,
+          "text": "嗯，我愿意迈出第一步。"
+        },
+        {
+          "player": true,
+          "text": "（我相信自己的能力，也相信自己的成长）"
+        }
+      ]
+    },
+    {
+      "number": 18,
+      "frogName": "晴团团",
+      "lines": [
+        {
+          "player": false,
+          "text": "你好，亲爱的孩子，我叫晴团团。晴团团会通过对话，在镜子世界帮你寻找一些指引。"
+        },
+        {
+          "player": true,
+          "text": "你好，晴团团。我总觉得自己不能太快乐。"
+        },
+        {
+          "player": false,
+          "text": "为什么？"
+        },
+        {
+          "player": true,
+          "text": "好像幸福之后，总会发生不好的事情。"
+        },
+        {
+          "player": false,
+          "text": "你不需要因为害怕失去，就拒绝拥有。"
+        },
+        {
+          "player": true,
+          "text": "嗯，我愿意安心享受当下。"
+        },
+        {
+          "player": true,
+          "text": "（允许自己快乐，不需要为幸福感到内疚）"
+        }
+      ]
+    },
+    {
+      "number": 19,
+      "frogName": "溪溪",
+      "lines": [
+        {
+          "player": false,
+          "text": "你好，亲爱的孩子，我叫溪溪。溪溪会通过对话，在镜子世界帮你寻找一些指引。"
+        },
+        {
+          "player": true,
+          "text": "你好，溪溪。改变让我觉得很不安。"
+        },
+        {
+          "player": false,
+          "text": "你害怕失去熟悉的一切吗？"
+        },
+        {
+          "player": true,
+          "text": "是的。"
+        },
+        {
+          "player": false,
+          "text": "但如果一直停留在原地，你可能也无法遇见新的自己。"
+        },
+        {
+          "player": true,
+          "text": "嗯，我愿意带着一点点勇气向前走。允许新的可能性进入我的生命。"
+        },
+        {
+          "player": true,
+          "text": "（改变可以是安全的，我有能力适应新的生活）"
+        }
+      ]
+    },
+    {
+      "number": 20,
+      "frogName": "葵葵",
+      "lines": [
+        {
+          "player": false,
+          "text": "你好，亲爱的孩子，我叫葵葵。葵葵会通过对话，在镜子世界帮你寻找一些指引。"
+        },
+        {
+          "player": true,
+          "text": "你好，葵葵。我以前总希望有人来拯救我。"
+        },
+        {
+          "player": false,
+          "text": "那么现在呢？"
+        },
+        {
+          "player": true,
+          "text": "我发现自己也可以成为自己的支持者。"
+        },
+        {
+          "player": false,
+          "text": "嗯。当你难过时，你会怎么对待自己呢？"
+        },
+        {
+          "player": true,
+          "text": "我会倾听自己，安慰自己，不再轻易否定自己。"
+        },
+        {
+          "player": false,
+          "text": "嗯，自己最可靠的朋友。"
+        },
+        {
+          "player": true,
+          "text": "我愿意陪伴自己一生。"
+        }
+      ]
+    },
+    {
+      "number": 21,
+      "frogName": "晞晞",
+      "lines": [
+        {
+          "player": false,
+          "text": "你好，亲爱的孩子，我叫晞晞。晞晞会通过对话，在镜子世界帮你寻找一些指引。"
+        },
+        {
+          "player": true,
+          "text": "你好，晞晞。这是我进入镜子世界的第21天，你觉得我最大的改变是什么？"
+        },
+        {
+          "player": false,
+          "text": "你开始看见自己的情绪，理解自己的过去，也学会为自己的选择负责。"
+        },
+        {
+          "player": true,
+          "text": "我不再那么依赖别人的评价了。"
+        },
+        {
+          "player": false,
+          "text": "那么，你还愿意继续爱自己吗？"
+        },
+        {
+          "player": true,
+          "text": "愿意。"
+        },
+        {
+          "player": false,
+          "text": "即使你有缺点、犯错误、偶尔脆弱呢？"
+        },
+        {
+          "player": true,
+          "text": "是的。因为我终于明白，爱自己不是要求自己永远优秀，而是在不完美的时候，依然不放弃自己。"
+        },
+        {
+          "player": false,
+          "text": "欢迎你，重新成为自己人生的主人。"
+        }
+      ]
+    }
+  ]
+}

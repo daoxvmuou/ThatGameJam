@@ -496,7 +496,7 @@ GameObject:
   - component: {fileID: 4223317070278008006}
   - component: {fileID: 8791644450735536484}
   m_Layer: 5
-  m_Name: MainPanel
+  m_Name: UIMainPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

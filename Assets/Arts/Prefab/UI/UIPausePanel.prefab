@@ -441,7 +441,7 @@ GameObject:
   - component: {fileID: 2112296186612142659}
   - component: {fileID: 2446019553552525353}
   m_Layer: 5
-  m_Name: PausePanel
+  m_Name: UIPausePanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
