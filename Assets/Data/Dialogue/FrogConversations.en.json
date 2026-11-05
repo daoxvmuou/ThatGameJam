@@ -1,0 +1,830 @@
+{
+  "conversations": [
+    {
+      "number": 1,
+      "frogName": "Juejue",
+      "lines": [
+        {
+          "player": false,
+          "text": "Hello, dear child. My name is Juejue, and I’m the Hugging Frog from the Mirror World. Through our conversations, I’ll help you find some guidance in the Mirror World."
+        },
+        {
+          "player": false,
+          "text": "How can I help you?"
+        },
+        {
+          "player": true,
+          "text": "Hello, Juejue. I have been feeling unhappy lately, but I can’t quite put my finger on why."
+        },
+        {
+          "player": false,
+          "text": "Have you ever really asked yourself what’s going on with you?"
+        },
+        {
+          "player": true,
+          "text": "It feels like I’m always taking care of others, but I don’t know what I want for myself."
+        },
+        {
+          "player": false,
+          "text": "Well, today, let’s not rush to solve the problem just yet. Would you be willing to listen to your own heart?"
+        },
+        {
+          "player": true,
+          "text": "I’d love to."
+        },
+        {
+          "player": true,
+          "text": "Let me think for a moment—what am I truly feeling right now?"
+        },
+        {
+          "player": false,
+          "text": "My dear child, I see your exhaustion, and I see your hurt. Are you okay now?"
+        },
+        {
+          "player": true,
+          "text": "Yes. I think I need to allow myself to feel my true emotions and be willing to listen to myself."
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "frogName": "Xingqingqing",
+      "lines": [
+        {
+          "player": false,
+          "text": "Hello, dear child. My name is Xingqingqing, and I’m an emotion fairy. Through our conversations, I’ll help you find some guidance in the Mirror World."
+        },
+        {
+          "player": false,
+          "text": "How have you been feeling lately?"
+        },
+        {
+          "player": true,
+          "text": "Hi, Xinquingqing. I don’t like it when I feel angry, sad, or anxious."
+        },
+        {
+          "player": false,
+          "text": "Why?"
+        },
+        {
+          "player": true,
+          "text": "Because I feel like these emotions mean I’m not good enough."
+        },
+        {
+          "player": false,
+          "text": "What if emotions aren’t a mistake, but are actually telling you something?"
+        },
+        {
+          "player": true,
+          "text": "Like what?"
+        },
+        {
+          "player": false,
+          "text": "Anger might be reminding you that your boundaries have been crossed, and sadness might be telling you that you’ve lost something important."
+        },
+        {
+          "player": true,
+          "text": "So emotions actually have their own meaning."
+        },
+        {
+          "player": false,
+          "text": "Yes, every emotion deserves to be understood."
+        },
+        {
+          "player": true,
+          "text": "Mm-hmm, I want to understand my emotions instead of suppressing them."
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "frogName": "Youyou",
+      "lines": [
+        {
+          "player": false,
+          "text": "Hello, dear child. My name is Youyou. Through our conversations, I’ll help you find some guidance in the Mirror World."
+        },
+        {
+          "player": true,
+          "text": "Hello, Youyou. I’m always afraid that others won’t like me."
+        },
+        {
+          "player": false,
+          "text": "What would you do if others weren’t satisfied?"
+        },
+        {
+          "player": true,
+          "text": "I’d feel like I’d done something wrong."
+        },
+        {
+          "player": false,
+          "text": "Have you been used to being an obedient, sensible person who pleases others since you were little?"
+        },
+        {
+          "player": true,
+          "text": "Yes, I always hope others will approve of me."
+        },
+        {
+          "player": false,
+          "text": "Then today, would you be willing to ask yourself: What do I truly want?"
+        },
+        {
+          "player": true,
+          "text": "I’m willing."
+        },
+        {
+          "player": true,
+          "text": "I think I don’t have to prove my worth by pleasing others."
+        },
+        {
+          "player": true,
+          "text": "I have the right to be my true self."
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "frogName": "Chuchu",
+      "lines": [
+        {
+          "player": false,
+          "text": "Hello, dear child. My name is Chuchu. Through our conversations, I’ll help you find some guidance in the Mirror World."
+        },
+        {
+          "player": true,
+          "text": "Hello, Chuchu. I’m always afraid of making mistakes when I do things."
+        },
+        {
+          "player": false,
+          "text": "What does making a mistake mean to you?"
+        },
+        {
+          "player": true,
+          "text": "It means being criticized and not being liked."
+        },
+        {
+          "player": false,
+          "text": "When you made mistakes as a child, did you receive understanding or blame?"
+        },
+        {
+          "player": true,
+          "text": "More often than not, it was blame."
+        },
+        {
+          "player": false,
+          "text": "Do you need to be perfect first in order to be loved?"
+        },
+        {
+          "player": true,
+          "text": "It seems like that’s what I’ve always believed."
+        },
+        {
+          "player": false,
+          "text": "You’re all grown up now, and you can learn to treat yourself differently."
+        },
+        {
+          "player": true,
+          "text": "Yeah, I don’t need to grow up by punishing myself anymore."
+        },
+        {
+          "player": true,
+          "text": "Even when I make mistakes, I’m still worthy of love."
+        },
+        {
+          "player": false,
+          "text": "Yes, you don’t need to prove your worth. You’re born worthy of love—you don’t need to prove it to anyone."
+        },
+        {
+          "player": true,
+          "text": "Yes, I’m worthy of love just as I am."
+        },
+        {
+          "player": false,
+          "text": "Allow yourself to be imperfect, and allow yourself to grow."
+        }
+      ]
+    },
+    {
+      "number": 5,
+      "frogName": "Mianmian",
+      "lines": [
+        {
+          "player": false,
+          "text": "Hello, dear child. My name is Mianmian. Through our conversations, I’ll help you find some guidance in the Mirror World."
+        },
+        {
+          "player": true,
+          "text": "Hi, Mianmian. Why is it that sometimes just one thing someone says can make me feel really sad?"
+        },
+        {
+          "player": false,
+          "text": "Maybe that comment touched on some past pain you’ve experienced."
+        },
+        {
+          "player": true,
+          "text": "What should I do?"
+        },
+        {
+          "player": false,
+          "text": "Try to look at that part of yourself that was once hurt."
+        },
+        {
+          "player": true,
+          "text": "Hmm, I think I want to give my younger self a hug."
+        },
+        {
+          "player": false,
+          "text": "Yes, you can tell him that you’ve grown up now and that you’ll protect yourself."
+        },
+        {
+          "player": true,
+          "text": "I want to be my own supporter and protector."
+        }
+      ]
+    },
+    {
+      "number": 6,
+      "frogName": "Shanshan",
+      "lines": [
+        {
+          "player": false,
+          "text": "Hello, dear child. My name is Shanshan. Through our conversations, I’ll help you find some guidance in the Mirror World."
+        },
+        {
+          "player": true,
+          "text": "Hello, Shanshan. I’m always hoping others will praise me."
+        },
+        {
+          "player": false,
+          "text": "If no one praises you, do you feel like you’re not good enough?"
+        },
+        {
+          "player": true,
+          "text": "I guess so."
+        },
+        {
+          "player": false,
+          "text": "So, have you been letting others decide your worth all along?"
+        },
+        {
+          "player": true,
+          "text": "Yes."
+        },
+        {
+          "player": false,
+          "text": "Now, are you willing to take back the right to evaluate yourself?"
+        },
+        {
+          "player": true,
+          "text": "I am. I want to learn to appreciate myself."
+        },
+        {
+          "player": true,
+          "text": "(I list three things about myself that are worth appreciating.) My worth doesn’t need to be determined by others."
+        }
+      ]
+    },
+    {
+      "number": 7,
+      "frogName": "Yuanyuan",
+      "lines": [
+        {
+          "player": false,
+          "text": "Hello, dear child. My name is Yuanyuan. Through our conversations, I’ll help you find some guidance in the Mirror World."
+        },
+        {
+          "player": true,
+          "text": "Hello, Yuanyuan. I’ve realized I have a lot of flaws."
+        },
+        {
+          "player": false,
+          "text": "Have you noticed any of your strengths?"
+        },
+        {
+          "player": true,
+          "text": "I don’t seem to pay much attention to them."
+        },
+        {
+          "player": false,
+          "text": "You don’t have to love only the “perfect” version of yourself."
+        },
+        {
+          "player": true,
+          "text": "So can I also love the vulnerable, sensitive, and imperfect parts of myself?"
+        },
+        {
+          "player": false,
+          "text": "Of course."
+        },
+        {
+          "player": true,
+          "text": "Hmm, starting today, I’m willing to accept myself completely."
+        },
+        {
+          "player": true,
+          "text": "No matter what I’m like, I deserve to be loved."
+        }
+      ]
+    },
+    {
+      "number": 8,
+      "frogName": "Yu Xinxin",
+      "lines": [
+        {
+          "player": false,
+          "text": "Hello, dear child. My name is Yu Xinxin. Through our conversations, I’ll help you find some guidance in the Mirror World."
+        },
+        {
+          "player": true,
+          "text": "Hello, Yu Xinxin. I always regret the things I’ve done in the past."
+        },
+        {
+          "player": false,
+          "text": "At the time, did you do the best you could?"
+        },
+        {
+          "player": true,
+          "text": "Yes, but looking back now, it seems very immature."
+        },
+        {
+          "player": false,
+          "text": "You can learn from the past, but you don’t have to punish your past self forever."
+        },
+        {
+          "player": true,
+          "text": "Hmm, I’m willing to forgive myself. I forgive my past self and allow myself to start over."
+        }
+      ]
+    },
+    {
+      "number": 9,
+      "frogName": "Hehe",
+      "lines": [
+        {
+          "player": false,
+          "text": "Hello, dear child. My name is Hehe. Through our conversations, I’ll help you find some guidance in the Mirror World."
+        },
+        {
+          "player": true,
+          "text": "Hello, Hehe. I always feel like I should be the person others expect me to be."
+        },
+        {
+          "player": false,
+          "text": "So, what kind of life do you expect for yourself?"
+        },
+        {
+          "player": true,
+          "text": "I don’t think I’ve ever really thought about it seriously."
+        },
+        {
+          "player": false,
+          "text": "Does your life really have to be played out according to someone else’s script?"
+        },
+        {
+          "player": true,
+          "text": "No, I want to make my own choices."
+        },
+        {
+          "player": false,
+          "text": "If you didn’t need anyone’s approval, what kind of life would you most want to live?"
+        },
+        {
+          "player": true,
+          "text": "I think I have the right to write my own life story."
+        }
+      ]
+    },
+    {
+      "number": 10,
+      "frogName": "Xiao Li",
+      "lines": [
+        {
+          "player": false,
+          "text": "Hello, dear child. My name is Xiao Li. Through our conversations, I’ll help you find some guidance in the Mirror World."
+        },
+        {
+          "player": true,
+          "text": "Hello, Xiao Li. I’m always afraid to say no to others."
+        },
+        {
+          "player": false,
+          "text": "Every time you agree to something, are you truly willing to do it deep down?"
+        },
+        {
+          "player": true,
+          "text": "Most of the time, I don’t really want to."
+        },
+        {
+          "player": false,
+          "text": "Then why don’t you say no?"
+        },
+        {
+          "player": true,
+          "text": "I’m afraid of disappointing others."
+        },
+        {
+          "player": false,
+          "text": "Just because others are disappointed does not mean you have done anything wrong."
+        },
+        {
+          "player": true,
+          "text": "Hmm, I can be kind and still have my own boundaries."
+        },
+        {
+          "player": true,
+          "text": "Saying no to unreasonable requests does not mean I’m not kind enough. I need to respect my own needs and boundaries."
+        }
+      ]
+    },
+    {
+      "number": 11,
+      "frogName": "Qingqing",
+      "lines": [
+        {
+          "player": false,
+          "text": "Hello, dear child. My name is Qingqing. Through our conversation, I’ll help you find some guidance in the Mirror World."
+        },
+        {
+          "player": true,
+          "text": "Hello, Qingqing. There are some hurts that I have kept locked away in my heart."
+        },
+        {
+          "player": false,
+          "text": "Hmm, so do you want the past to keep affecting your present?"
+        },
+        {
+          "player": true,
+          "text": "No, but it’s really hard for me to let go."
+        },
+        {
+          "player": false,
+          "text": "You can acknowledge that you have been hurt, and you can slowly regain your strength."
+        },
+        {
+          "player": true,
+          "text": "Hmm, I don’t have to keep punishing myself for other people’s actions."
+        },
+        {
+          "player": true,
+          "text": "“I acknowledge my pain, and I allow myself to let go little by little.”"
+        },
+        {
+          "player": true,
+          "text": "I will no longer let the past determine my future."
+        }
+      ]
+    },
+    {
+      "number": 12,
+      "frogName": "Ling",
+      "lines": [
+        {
+          "player": false,
+          "text": "Hello, dear child. My name is Ling. Through our conversations, I’ll help you find some guidance in the Mirror World."
+        },
+        {
+          "player": true,
+          "text": "Hello, Ling. I always feel like I’m not trying hard enough."
+        },
+        {
+          "player": false,
+          "text": "Do you often blame yourself in your heart?"
+        },
+        {
+          "player": true,
+          "text": "Yes, I’m afraid that if I let up even a little, I’ll become lazy."
+        },
+        {
+          "player": false,
+          "text": "What if growth could come from encouragement rather than scolding?"
+        },
+        {
+          "player": true,
+          "text": "Oh, so I can be gentle with myself."
+        },
+        {
+          "player": true,
+          "text": "(When criticism arises in my mind, I’ll replace it with a word of encouragement. I’ll use understanding and encouragement instead of harsh criticism.)"
+        }
+      ]
+    },
+    {
+      "number": 13,
+      "frogName": "Anhe",
+      "lines": [
+        {
+          "player": false,
+          "text": "Hello, dear child. My name is Anhe. Through our conversations, I’ll help you find some guidance in the Mirror World."
+        },
+        {
+          "player": true,
+          "text": "Hello, Anhe. I’m always hoping someone will understand me and take care of me."
+        },
+        {
+          "player": false,
+          "text": "Have you ever truly taken care of yourself?"
+        },
+        {
+          "player": true,
+          "text": "It seems like I always neglect myself."
+        },
+        {
+          "player": false,
+          "text": "You can expect others to give you love, but you can also take the initiative to care for yourself."
+        },
+        {
+          "player": true,
+          "text": "I’m willing to start by learning to take care of my own feelings."
+        },
+        {
+          "player": false,
+          "text": "What small, heartwarming thing can you do for yourself today?"
+        },
+        {
+          "player": true,
+          "text": "Hmm, I think I deserve to be cared for, and I’m capable of taking care of myself."
+        }
+      ]
+    },
+    {
+      "number": 14,
+      "frogName": "Xinyu",
+      "lines": [
+        {
+          "player": false,
+          "text": "Hello, dear child. My name is Xinyu. Through our conversations, I’ll help you find some guidance in the Mirror World."
+        },
+        {
+          "player": true,
+          "text": "Hello, Xinyu. Why does my life never go the way I want it to?"
+        },
+        {
+          "player": false,
+          "text": "Do you feel like you have absolutely no choice in your life?"
+        },
+        {
+          "player": true,
+          "text": "Sometimes I feel powerless."
+        },
+        {
+          "player": false,
+          "text": "You may not have been able to choose what happened in the past, but you can gradually learn to choose how to respond in the present."
+        },
+        {
+          "player": true,
+          "text": "Hmm, I’m no longer just waiting for others to change; I’m also willing to take responsibility for my own life."
+        },
+        {
+          "player": true,
+          "text": "Let me think—what’s one thing today that I can actively change? I have the power to make new choices for my life."
+        }
+      ]
+    },
+    {
+      "number": 15,
+      "frogName": "MuMu",
+      "lines": [
+        {
+          "player": false,
+          "text": "Hello, dear child. My name is MuMu. Through our conversations, I’ll help you find some guidance in the Mirror World."
+        },
+        {
+          "player": true,
+          "text": "Hello, MuMu. Why do I always worry that others don’t love me?"
+        },
+        {
+          "player": false,
+          "text": "Do you view others’ love as proof of your own worth?"
+        },
+        {
+          "player": true,
+          "text": "Yes. I’m afraid of getting hurt."
+        },
+        {
+          "player": false,
+          "text": "Truly healthy love does not require you to lose yourself."
+        },
+        {
+          "player": false,
+          "text": "You can stay true to yourself within love, and you can build trust gradually."
+        },
+        {
+          "player": true,
+          "text": "Hmm, I’m willing to love others without forgetting to love myself."
+        }
+      ]
+    },
+    {
+      "number": 16,
+      "frogName": "Yingying",
+      "lines": [
+        {
+          "player": false,
+          "text": "Hello, dear child. My name is Yingying. Through our conversations, I’ll help you find some guidance in the Mirror World."
+        },
+        {
+          "player": true,
+          "text": "Hello, Yingying. I always feel like I’m not living in abundance."
+        },
+        {
+          "player": false,
+          "text": "Have you noticed what you already have?"
+        },
+        {
+          "player": true,
+          "text": "I seem to always focus on what’s missing."
+        },
+        {
+          "player": false,
+          "text": "You can re-examine these limiting beliefs."
+        },
+        {
+          "player": true,
+          "text": "Hmm, I’m willing to see every bit of abundance in my life."
+        }
+      ]
+    },
+    {
+      "number": 17,
+      "frogName": "Yueyue",
+      "lines": [
+        {
+          "player": false,
+          "text": "Hello, dear child. My name is Yueyue. Through our conversations, I’ll help you find some guidance in the Mirror World."
+        },
+        {
+          "player": true,
+          "text": "Hello, Yueyue. There are so many things I want to do, but I’m always afraid of failing."
+        },
+        {
+          "player": false,
+          "text": "Do you expect yourself to succeed right from the start?"
+        },
+        {
+          "player": true,
+          "text": "Yes."
+        },
+        {
+          "player": false,
+          "text": "You can allow yourself to go from not knowing to knowing, from unfamiliarity to familiarity."
+        },
+        {
+          "player": true,
+          "text": "Hmm, I’m willing to take the first step."
+        },
+        {
+          "player": true,
+          "text": "(I believe in my abilities, and I believe in my growth.)"
+        }
+      ]
+    },
+    {
+      "number": 18,
+      "frogName": "Qing Tuantuan",
+      "lines": [
+        {
+          "player": false,
+          "text": "Hello, dear child. My name is Qing Tuantuan. Through our conversations, I’ll help you find some guidance in the Mirror World."
+        },
+        {
+          "player": true,
+          "text": "Hello, Qing Tuantuan. I always feel like I should not be too happy."
+        },
+        {
+          "player": false,
+          "text": "Why?"
+        },
+        {
+          "player": true,
+          "text": "It seems like whenever I’m happy, something bad always happens afterward."
+        },
+        {
+          "player": false,
+          "text": "You don’t need to refuse to have something just because you’re afraid of losing it."
+        },
+        {
+          "player": true,
+          "text": "Hmm, I’m willing to enjoy the moment with peace of mind."
+        },
+        {
+          "player": true,
+          "text": "(Allowing myself to be happy, without feeling guilty for being happy)"
+        }
+      ]
+    },
+    {
+      "number": 19,
+      "frogName": "Flow",
+      "lines": [
+        {
+          "player": false,
+          "text": "Hello, dear child. My name is Flow. Through our conversations, I’ll help you find some guidance in the Mirror World."
+        },
+        {
+          "player": true,
+          "text": "Hello, Flow. Change makes me feel very uneasy."
+        },
+        {
+          "player": false,
+          "text": "Are you afraid of losing everything familiar?"
+        },
+        {
+          "player": true,
+          "text": "Yes."
+        },
+        {
+          "player": false,
+          "text": "But if you stay stuck in the same place, you might never discover a new version of yourself."
+        },
+        {
+          "player": true,
+          "text": "Hmm, I’m willing to take a small step forward with a little courage. I’ll let new possibilities into my life."
+        },
+        {
+          "player": true,
+          "text": "(Change can be safe; I have the ability to adapt to a new life.)"
+        }
+      ]
+    },
+    {
+      "number": 20,
+      "frogName": "Kui Kui",
+      "lines": [
+        {
+          "player": false,
+          "text": "Hello, dear child. My name is Kui Kui. Through our conversations, I’ll help you find some guidance in the Mirror World."
+        },
+        {
+          "player": true,
+          "text": "Hello, Kui Kui. I used to always hope someone would come to save me."
+        },
+        {
+          "player": false,
+          "text": "And what about now?"
+        },
+        {
+          "player": true,
+          "text": "I’ve realized that I can be my own source of support."
+        },
+        {
+          "player": false,
+          "text": "Hmm. When you’re feeling down, how do you treat yourself?"
+        },
+        {
+          "player": true,
+          "text": "I listen to myself, comfort myself, and no longer dismiss myself so easily."
+        },
+        {
+          "player": false,
+          "text": "Hmm, your most reliable friend."
+        },
+        {
+          "player": true,
+          "text": "I’m willing to be there for myself for the rest of my life."
+        }
+      ]
+    },
+    {
+      "number": 21,
+      "frogName": "Xi Xi",
+      "lines": [
+        {
+          "player": false,
+          "text": "Hello, dear child. My name is Xi Xi. Through our conversations, I’ll help you find some guidance in the Mirror World."
+        },
+        {
+          "player": true,
+          "text": "Hello, Xi Xi. This is my 21st day in the Mirror World. What do you think has been my biggest change?"
+        },
+        {
+          "player": false,
+          "text": "You’ve started to recognize your emotions, understand your past, and learn to take responsibility for your choices."
+        },
+        {
+          "player": true,
+          "text": "I’m no longer so dependent on other people’s opinions."
+        },
+        {
+          "player": false,
+          "text": "So, are you still willing to continue loving yourself?"
+        },
+        {
+          "player": true,
+          "text": "I am."
+        },
+        {
+          "player": false,
+          "text": "Even if you have flaws, make mistakes, or feel vulnerable from time to time?"
+        },
+        {
+          "player": true,
+          "text": "Yes. Because I have finally realized that loving myself is not about demanding that I be perfect all the time, but about not giving up on myself even when I’m imperfect."
+        },
+        {
+          "player": false,
+          "text": "Welcome back to being the master of your own life."
+        }
+      ]
+    }
+  ]
+}
