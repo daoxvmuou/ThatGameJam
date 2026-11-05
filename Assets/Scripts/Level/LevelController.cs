@@ -18,7 +18,6 @@ namespace ThatGameJam.Level
         [SerializeField] private Transform levelParent;
 
         [Header("音乐")]
-        [SerializeField] private AudioSource musicSource;
         [SerializeField] private AudioClip defaultMusic;
 
         [Header("启动行为")]
@@ -205,32 +204,14 @@ namespace ThatGameJam.Level
 
         void PlayMusic(AudioClip clip)
         {
-            if (musicSource == null) musicSource = gameObject.GetComponent<AudioSource>();
-            if (musicSource == null) musicSource = gameObject.AddComponent<AudioSource>();
-
-            musicSource.loop = true;
-            musicSource.playOnAwake = false;
-
-            if (clip == null)
-            {
-                musicSource.Stop();
-                musicSource.clip = null;
-                return;
-            }
-
-            if (musicSource.clip == clip && musicSource.isPlaying) return;
-
-            musicSource.clip = clip;
-            musicSource.Play();
+            if (MusicPlayer.Instance == null) return;
+            MusicPlayer.Instance.Play(clip);
         }
 
         void StopMusic()
         {
-            if (musicSource != null)
-            {
-                musicSource.Stop();
-                musicSource.clip = null;
-            }
+            if (MusicPlayer.Instance == null) return;
+            MusicPlayer.Instance.Stop();
         }
     }
 }

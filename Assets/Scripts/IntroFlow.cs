@@ -14,6 +14,10 @@ namespace ThatGameJam
         [SerializeField] private bool anyKeyToContinue = true;
         [SerializeField] private float autoCloseSeconds = 0f;
 
+        [Header("音乐")]
+        [SerializeField] private AudioClip bgm;
+        [SerializeField, Range(0f, 1f)] private float bgmVolume = 1f;
+
         [Header("开场动画")]
         [SerializeField] private IntroPlayer introPlayer;
 
@@ -27,6 +31,14 @@ namespace ThatGameJam
         {
             hudRoot = FindHudRoot();
             SetHudVisible(false);
+            PlayBgm();
+        }
+
+        void PlayBgm()
+        {
+            AudioClip clip = bgm != null ? bgm : (introPlayer != null ? introPlayer.Bgm : null);
+            if (clip == null || MusicPlayer.Instance == null) return;
+            MusicPlayer.Instance.Play(clip, bgmVolume);
         }
 
         void Start()

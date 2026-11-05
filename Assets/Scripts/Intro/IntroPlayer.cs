@@ -18,7 +18,6 @@ namespace ThatGameJam.Intro
 
         [Header("音频")]
         [SerializeField] private float bgmVolume = 1f;
-        [SerializeField] private bool bgmLoop = true;
         [SerializeField] private bool useVideoAudio = false;
 
         [Header("流程")]
@@ -35,7 +34,7 @@ namespace ThatGameJam.Intro
         VideoPlayer player;
         RenderTexture renderTexture;
         GameObject canvasRoot;
-        AudioSource audioSource;
+        public AudioClip Bgm => bgm;
         bool started;
         bool finished;
         float playStartTime;
@@ -159,13 +158,7 @@ namespace ThatGameJam.Intro
         void BuildAudio()
         {
             if (bgm == null) return;
-
-            audioSource = gameObject.AddComponent<AudioSource>();
-            audioSource.clip = bgm;
-            audioSource.loop = bgmLoop;
-            audioSource.volume = bgmVolume;
-            audioSource.playOnAwake = false;
-            audioSource.Play();
+            if (MusicPlayer.Instance != null) MusicPlayer.Instance.Play(bgm, bgmVolume);
         }
 
         void CheckDuration()
@@ -219,12 +212,6 @@ namespace ThatGameJam.Intro
                 player.Stop();
                 Destroy(player);
                 player = null;
-            }
-
-            if (audioSource != null)
-            {
-                audioSource.Stop();
-                audioSource = null;
             }
 
             if (canvasRoot != null)

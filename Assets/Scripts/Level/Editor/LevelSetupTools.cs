@@ -321,6 +321,14 @@ namespace ThatGameJam.Level.EditorTools
             var flowSerialized = new SerializedObject(flow);
             flowSerialized.FindProperty("settingsPanelPrefab").objectReferenceValue = settingsPrefab;
             flowSerialized.FindProperty("introPlayer").objectReferenceValue = intro;
+
+            if (intro != null)
+            {
+                SerializedProperty introBgm = new SerializedObject(intro).FindProperty("bgm");
+                SerializedProperty flowBgm = flowSerialized.FindProperty("bgm");
+                if (introBgm != null && flowBgm != null) flowBgm.objectReferenceValue = introBgm.objectReferenceValue;
+            }
+
             flowSerialized.ApplyModifiedPropertiesWithoutUndo();
 
             EditorSceneManager.MarkSceneDirty(scene);
