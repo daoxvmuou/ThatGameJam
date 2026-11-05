@@ -275,6 +275,50 @@ namespace ThatGameJam.Level.EditorTools
             Debug.Log("[关卡] 已接入自动推进：走到地图右端进入下一关，第 7 关后回到第 1 关");
         }
 
+        [MenuItem("Tools/横版跳跃/⑪ 接入结局界面", false, 11)]
+        public static void WireEndScreen()
+        {
+            const string endPrefabPath = "Assets/Arts/Prefab/UI/End.prefab";
+
+            GameObject endPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(endPrefabPath);
+            if (endPrefab == null)
+            {
+                Debug.LogError($"[关卡] 找不到结局界面预制体 {endPrefabPath}");
+                return;
+            }
+
+            if (!File.Exists(GameScenePath))
+            {
+                Debug.LogError($"[关卡] 找不到场景 {GameScenePath}，请先执行 ① 或 ③。");
+                return;
+            }
+
+            if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) return;
+
+            Scene scene = EditorSceneManager.OpenScene(GameScenePath, OpenSceneMode.Single);
+
+            LevelAutoAdvance advance = UnityEngine.Object.FindObjectOfType<LevelAutoAdvance>();
+            if (advance == null)
+            {
+                var go = new GameObject("LevelAutoAdvance");
+                advance = go.AddComponent<LevelAutoAdvance>();
+            }
+
+            var serialized = new SerializedObject(advance);
+            SerializedProperty endProperty = serialized.FindProperty("endScreenPrefab");
+            if (endProperty != null) endProperty.objectReferenceValue = endPrefab;
+
+            SerializedProperty showProperty = serialized.FindProperty("showEndScreenOnLastLevel");
+            if (showProperty != null) showProperty.boolValue = true;
+
+            serialized.ApplyModifiedPropertiesWithoutUndo();
+
+            EditorSceneManager.MarkSceneDirty(scene);
+            EditorSceneManager.SaveScene(scene, GameScenePath);
+
+            Debug.Log("[关卡] 已接入结局界面：最后一关走到右端显示 End 并停止角色控制");
+        }
+
         [MenuItem("Tools/横版跳跃/⑩ 接入青蛙气泡交互", false, 10)]
         public static void WireFrogBubble()
         {

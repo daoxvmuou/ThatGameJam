@@ -14,6 +14,11 @@ namespace ThatGameJam
         [Header("流程")]
         [SerializeField] private bool loopToFirstLevel = true;
 
+        [Header("结局")]
+        [SerializeField] private GameObject endScreenPrefab;
+        [SerializeField] private bool showEndScreenOnLastLevel = true;
+        [SerializeField] private bool stopPlayerAtEnd = true;
+
         private Bounds levelBounds;
         private bool hasBounds;
         private Transform player;
@@ -60,6 +65,12 @@ namespace ThatGameJam
             int next = controller.CurrentIndex + 1;
             if (next >= controller.LevelCount)
             {
+                if (showEndScreenOnLastLevel && endScreenPrefab != null)
+                {
+                    ShowEndScreen();
+                    return;
+                }
+
                 if (!loopToFirstLevel)
                 {
                     advancing = true;
@@ -72,6 +83,23 @@ namespace ThatGameJam
             advancing = true;
             player = null;
             controller.Load(next);
+        }
+
+        void ShowEndScreen()
+        {
+            advancing = true;
+
+            if (stopPlayerAtEnd)
+            {
+                ResolvePlayer();
+                if (player != null)
+                {
+                    PlayerController controller = player.GetComponent<PlayerController>();
+                    if (controller != null) controller.SetControlEnabled(false);
+                }
+            }
+
+            Instantiate(endScreenPrefab);
         }
 
         void ResolvePlayer()
