@@ -154,7 +154,7 @@ MonoBehaviour:
   registry: {fileID: 11400000, guid: b557239fa2240724cb30393d29778c2d, type: 2}
   levelParent: {fileID: 1862243123}
   musicSource: {fileID: 0}
-  defaultMusic: {fileID: 8300000, guid: 4926663e505c9dc45b2fcb73e0701483, type: 3}
+  defaultMusic: {fileID: 8300000, guid: 3a2813e62a9bec04cbcf000361dc9a83, type: 3}
   loadFirstLevelOnStart: 0
   applySortingOrder: 1
   backgroundSortingOrder: -100
@@ -390,9 +390,12 @@ MonoBehaviour:
   offset: {x: 0, y: 1.5}
   smoothTime: 0.2
   lookAhead: 1.5
-  clampVertical: 1
-  minY: -2
-  maxY: 4
+  zoomNearEdges: 1
+  edgeOrthoSize: 3.8
+  edgeZoomDistance: 4
+  zoomSmoothTime: 0.35
+  useLevelBounds: 1
+  boundsPadding: 0
 --- !u!1 &1575418987
 GameObject:
   m_ObjectHideFlags: 0
@@ -423,8 +426,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 1588578735253486990, guid: de55c74fea8a2574cae4edb370bad69d, type: 3}
+  spawnAtLevelLeftBottom: 1
+  horizontalInset: 1.5
+  verticalInset: 2
   spawnOffset: {x: 0, y: 4}
   respawnOnFall: 1
+  relativeKillY: 1
+  fallMargin: 3
   killY: -12
 --- !u!4 &1575418989
 Transform:
