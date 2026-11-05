@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using ThatGameJam.Intro;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.Video;
 
 namespace ThatGameJam.Level.EditorTools
 {
@@ -63,6 +66,82 @@ namespace ThatGameJam.Level.EditorTools
             Selection.activeObject = definition;
             EditorGUIUtility.PingObject(definition);
             Debug.Log($"[关卡] 已创建并注册关卡配置：{path}");
+        }
+
+        [MenuItem("Tools/横版跳跃/③ 重建 Game 场景结构", false, 3)]
+        public static void RebuildGameScene()
+        {
+            EnsureFolder(ScenesFolder);
+            LevelRegistry registry = LoadOrCreateAsset<LevelRegistry>(RegistryPath);
+
+            if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) return;
+
+            Scene scene = File.Exists(GameScenePath)
+                ? EditorSceneManager.OpenScene(GameScenePath, OpenSceneMode.Single)
+                : EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
+
+            Camera camera = UnityEngine.Object.FindObjectOfType<Camera>();
+            if (camera == null)
+            {
+                var cameraGo = new GameObject("Main Camera");
+                cameraGo.tag = "MainCamera";
+                camera = cameraGo.AddComponent<Camera>();
+                cameraGo.AddComponent<AudioListener>();
+                cameraGo.transform.position = new Vector3(0f, 0f, -10f);
+            }
+            camera.orthographic = true;
+            camera.orthographicSize = 5f;
+            camera.clearFlags = CameraClearFlags.SolidColor;
+            camera.backgroundColor = new Color(0.07f, 0.08f, 0.12f, 1f);
+
+            LevelController controller = UnityEngine.Object.FindObjectOfType<LevelController>();
+            if (controller == null)
+            {
+                var controllerGo = new GameObject("LevelController");
+                controller = controllerGo.AddComponent<LevelController>();
+            }
+
+            Transform anchor = controller.transform.Find("LevelRoot");
+            if (anchor == null)
+            {
+                var anchorGo = new GameObject("LevelRoot");
+                anchorGo.transform.SetParent(controller.transform, false);
+                anchor = anchorGo.transform;
+            }
+
+            var controllerSerialized = new SerializedObject(controller);
+            controllerSerialized.FindProperty("registry").objectReferenceValue = registry;
+            controllerSerialized.FindProperty("levelParent").objectReferenceValue = anchor;
+            controllerSerialized.FindProperty("loadFirstLevelOnStart").boolValue = false;
+            controllerSerialized.ApplyModifiedPropertiesWithoutUndo();
+
+            IntroPlayer intro = UnityEngine.Object.FindObjectOfType<IntroPlayer>(true);
+            if (intro == null)
+            {
+                var introGo = new GameObject("IntroPlayer");
+                intro = introGo.AddComponent<IntroPlayer>();
+            }
+
+            var introSerialized = new SerializedObject(intro);
+            SerializedProperty videoProperty = introSerialized.FindProperty("videoClip");
+            if (videoProperty != null && videoProperty.objectReferenceValue == null)
+            {
+                string[] videoGuids = AssetDatabase.FindAssets("t:VideoClip", new[] { "Assets/Resources/Video" });
+                if (videoGuids.Length > 0)
+                {
+                    string videoPath = AssetDatabase.GUIDToAssetPath(videoGuids[0]);
+                    videoProperty.objectReferenceValue = AssetDatabase.LoadAssetAtPath<VideoClip>(videoPath);
+                }
+                introSerialized.ApplyModifiedPropertiesWithoutUndo();
+            }
+
+            EditorSceneManager.MarkSceneDirty(scene);
+            EditorSceneManager.SaveScene(scene, GameScenePath);
+            AddSceneToBuildSettings();
+
+            Selection.activeGameObject = intro.gameObject;
+            EditorGUIUtility.PingObject(intro.gameObject);
+            Debug.Log("[关卡] Game 场景结构已重建：Main Camera / LevelController / LevelRoot / IntroPlayer");
         }
 
         static void CreateGameScene(LevelRegistry registry)
