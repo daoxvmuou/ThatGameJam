@@ -154,6 +154,7 @@ MonoBehaviour:
   registry: {fileID: 11400000, guid: b557239fa2240724cb30393d29778c2d, type: 2}
   levelParent: {fileID: 1862243123}
   musicSource: {fileID: 0}
+  defaultMusic: {fileID: 8300000, guid: 4926663e505c9dc45b2fcb73e0701483, type: 3}
   loadFirstLevelOnStart: 0
   applySortingOrder: 1
   backgroundSortingOrder: -100

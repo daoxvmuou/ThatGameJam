@@ -19,6 +19,7 @@ namespace ThatGameJam.Level
 
         [Header("音乐")]
         [SerializeField] private AudioSource musicSource;
+        [SerializeField] private AudioClip defaultMusic;
 
         [Header("启动行为")]
         [SerializeField] private bool loadFirstLevelOnStart = true;
@@ -127,9 +128,14 @@ namespace ThatGameJam.Level
 
         public void Unload()
         {
+            UnloadLevel(true);
+        }
+
+        void UnloadLevel(bool stopMusic)
+        {
             LevelDefinition previous = Current;
 
-            StopMusic();
+            if (stopMusic) StopMusic();
 
             if (Root != null)
             {
@@ -146,7 +152,7 @@ namespace ThatGameJam.Level
 
         bool LoadInternal(LevelDefinition definition, int index)
         {
-            Unload();
+            UnloadLevel(false);
 
             GameObject host = new GameObject("Level_" + definition.name);
             host.transform.SetParent(levelParent, false);
@@ -169,7 +175,7 @@ namespace ThatGameJam.Level
 
             Debug.Log($"[关卡] 已加载 {definition.name}，挂载点世界坐标 {levelParent.position}");
 
-            PlayMusic(definition.Music);
+            PlayMusic(definition.Music != null ? definition.Music : defaultMusic);
 
             LevelLoaded?.Invoke(definition);
             return true;
@@ -204,10 +210,18 @@ namespace ThatGameJam.Level
 
             musicSource.loop = true;
             musicSource.playOnAwake = false;
-            musicSource.clip = clip;
 
-            if (clip != null) musicSource.Play();
-            else musicSource.Stop();
+            if (clip == null)
+            {
+                musicSource.Stop();
+                musicSource.clip = null;
+                return;
+            }
+
+            if (musicSource.clip == clip && musicSource.isPlaying) return;
+
+            musicSource.clip = clip;
+            musicSource.Play();
         }
 
         void StopMusic()
