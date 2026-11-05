@@ -7,6 +7,7 @@ using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using UnityEngine.Video;
 
 namespace ThatGameJam.Level.EditorTools
@@ -272,6 +273,74 @@ namespace ThatGameJam.Level.EditorTools
             AddSceneToBuildSettings();
 
             Debug.Log("[关卡] 已接入自动推进：走到地图右端进入下一关，第 7 关后回到第 1 关");
+        }
+
+        [MenuItem("Tools/横版跳跃/⑦ 接入游戏 UI", false, 7)]
+        public static void WireGameUi()
+        {
+            const string uiPrefabPath = "Assets/Arts/Prefab/UI/UIMainPanel.prefab";
+
+            GameObject uiPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(uiPrefabPath);
+            if (uiPrefab == null)
+            {
+                Debug.LogError($"[UI] 找不到 UI 预制体 {uiPrefabPath}");
+                return;
+            }
+
+            if (!File.Exists(GameScenePath))
+            {
+                Debug.LogError($"[UI] 找不到场景 {GameScenePath}，请先执行 ① 或 ③。");
+                return;
+            }
+
+            if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) return;
+
+            Scene scene = EditorSceneManager.OpenScene(GameScenePath, OpenSceneMode.Single);
+
+            Canvas canvas = UnityEngine.Object.FindObjectOfType<Canvas>();
+            if (canvas == null)
+            {
+                var canvasGo = new GameObject("GameCanvas", typeof(Canvas), typeof(CanvasScaler), typeof(GraphicRaycaster));
+                canvas = canvasGo.GetComponent<Canvas>();
+                canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+
+                var scaler = canvasGo.GetComponent<CanvasScaler>();
+                scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+                scaler.referenceResolution = new Vector2(1920f, 1080f);
+                scaler.matchWidthOrHeight = 0.5f;
+            }
+
+            if (UnityEngine.Object.FindObjectOfType<UnityEngine.EventSystems.EventSystem>() == null)
+            {
+                new GameObject("EventSystem", typeof(UnityEngine.EventSystems.EventSystem), typeof(UnityEngine.EventSystems.StandaloneInputModule));
+            }
+
+            if (canvas.transform.Find("UIMainPanel") == null)
+            {
+                GameObject instance = (GameObject)PrefabUtility.InstantiatePrefab(uiPrefab, canvas.transform);
+                instance.name = "UIMainPanel";
+
+                var rect = instance.GetComponent<RectTransform>();
+                if (rect != null)
+                {
+                    rect.anchorMin = Vector2.zero;
+                    rect.anchorMax = Vector2.one;
+                    rect.offsetMin = Vector2.zero;
+                    rect.offsetMax = Vector2.zero;
+                    rect.localScale = Vector3.one;
+                }
+
+                if (instance.GetComponent<GameHudBinder>() == null)
+                {
+                    instance.AddComponent<GameHudBinder>();
+                }
+            }
+
+            EditorSceneManager.MarkSceneDirty(scene);
+            EditorSceneManager.SaveScene(scene, GameScenePath);
+            AddSceneToBuildSettings();
+
+            Debug.Log("[UI] 游戏 UI 已接入 Game 场景：GameCanvas + EventSystem + UIMainPanel（按钮已绑定功能）");
         }
 
         static void AddHotkeysToGameScene()
