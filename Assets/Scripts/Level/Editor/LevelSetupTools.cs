@@ -188,6 +188,93 @@ namespace ThatGameJam.Level.EditorTools
             Debug.Log("[关卡] 玩家预制体已生成，PlayerSpawner 与 CameraFollow 已接入 Game 场景");
         }
 
+        [MenuItem("Tools/横版跳跃/⑤ 批量生成 7 个关卡配置", false, 5)]
+        public static void CreateLevelsFromMaps()
+        {
+            EnsureFolder(DataFolder);
+            EnsureFolder(LevelsFolder);
+
+            LevelRegistry registry = LoadOrCreateAsset<LevelRegistry>(RegistryPath);
+
+            var maps = AssetDatabase.FindAssets("t:Prefab", new[] { "Assets/Arts/Prefab/Map" })
+                .Select(guid => AssetDatabase.LoadAssetAtPath<GameObject>(AssetDatabase.GUIDToAssetPath(guid)))
+                .Where(prefab => prefab != null)
+                .OrderBy(prefab => ExtractNumber(prefab.name))
+                .ToList();
+
+            if (maps.Count == 0)
+            {
+                Debug.LogError("[关卡] 在 Assets/Arts/Prefab/Map 下没找到地图预制体。");
+                return;
+            }
+
+            var registrySerialized = new SerializedObject(registry);
+            registrySerialized.FindProperty("levels").ClearArray();
+            registrySerialized.ApplyModifiedPropertiesWithoutUndo();
+            EditorUtility.SetDirty(registry);
+
+            var lines = new List<string>();
+            for (int i = 0; i < maps.Count; i++)
+            {
+                string path = $"{LevelsFolder}/Level_{i + 1:00}.asset";
+                LevelDefinition definition = AssetDatabase.LoadAssetAtPath<LevelDefinition>(path);
+                if (definition == null)
+                {
+                    definition = ScriptableObject.CreateInstance<LevelDefinition>();
+                    AssetDatabase.CreateAsset(definition, path);
+                }
+
+                var serialized = new SerializedObject(definition);
+                serialized.FindProperty("platform").objectReferenceValue = maps[i];
+                serialized.ApplyModifiedPropertiesWithoutUndo();
+                EditorUtility.SetDirty(definition);
+
+                RegisterLevel(registry, definition);
+                lines.Add($"Level_{i + 1:00}  →  {maps[i].name}");
+            }
+
+            EditorUtility.SetDirty(registry);
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+
+            AddHotkeysToGameScene();
+
+            Debug.Log($"[关卡] 已生成并注册 {lines.Count} 个关卡\n  " + string.Join("\n  ", lines));
+        }
+
+        static void AddHotkeysToGameScene()
+        {
+            if (!File.Exists(GameScenePath)) return;
+            if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) return;
+
+            Scene scene = EditorSceneManager.OpenScene(GameScenePath, OpenSceneMode.Single);
+            if (UnityEngine.Object.FindObjectOfType<LevelHotkeys>() != null) return;
+
+            var go = new GameObject("LevelHotkeys");
+            go.AddComponent<LevelHotkeys>();
+            EditorSceneManager.MarkSceneDirty(scene);
+            EditorSceneManager.SaveScene(scene, GameScenePath);
+        }
+
+        static int ExtractNumber(string name)
+        {
+            int value = 0;
+            bool found = false;
+            foreach (char c in name)
+            {
+                if (c >= '0' && c <= '9')
+                {
+                    value = value * 10 + (c - '0');
+                    found = true;
+                }
+                else if (found)
+                {
+                    break;
+                }
+            }
+            return value;
+        }
+
         static GameObject BuildPlayerPrefab(string path)
         {
             Sprite sprite = LoadFirstAsset<Sprite>("Assets/Arts/Image/Character/player", "t:Sprite");
