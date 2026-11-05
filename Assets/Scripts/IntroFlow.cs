@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using ThatGameJam.Intro;
@@ -8,15 +10,11 @@ namespace ThatGameJam
     [DisallowMultipleComponent]
     public class IntroFlow : MonoBehaviour
     {
-        [Header("开场前界面")]
-        [SerializeField] private GameObject settingsPanelPrefab;
+        [Header("开场前的界面（按顺序播放）")]
+        [SerializeField] private List<GameObject> panels = new List<GameObject>();
         [SerializeField] private string closeButtonName = "CloseButton";
         [SerializeField] private bool anyKeyToContinue = true;
         [SerializeField] private float autoCloseSeconds = 0f;
-
-        [Header("音乐")]
-        [SerializeField] private AudioClip bgm;
-        [SerializeField, Range(0f, 1f)] private float bgmVolume = 1f;
 
         [Header("开场动画")]
         [SerializeField] private IntroPlayer introPlayer;
@@ -24,8 +22,13 @@ namespace ThatGameJam
         [Header("游戏内 UI")]
         [SerializeField] private string hudRootName = "UIMainPanel";
 
+        [Header("音乐")]
+        [SerializeField] private AudioClip bgm;
+        [SerializeField, Range(0f, 1f)] private float bgmVolume = 1f;
+
         private GameObject panelInstance;
         private Transform hudRoot;
+        private bool panelDismissed;
 
         void Awake()
         {
@@ -34,83 +37,92 @@ namespace ThatGameJam
             PlayBgm();
         }
 
-        void PlayBgm()
-        {
-            AudioClip clip = bgm != null ? bgm : (introPlayer != null ? introPlayer.Bgm : null);
-            if (clip == null || MusicPlayer.Instance == null) return;
-            MusicPlayer.Instance.Play(clip, bgmVolume);
-        }
-
         void Start()
         {
-            ShowSettings();
-        }
-
-        void Update()
-        {
-            if (panelInstance == null) return;
-            if (!anyKeyToContinue) return;
-            if (!Input.anyKeyDown) return;
-
-            CloseSettings();
+            StartCoroutine(RunPanels());
         }
 
         void OnDestroy()
         {
-            CancelInvoke();
             IntroPlayer.IntroFinished -= OnIntroFinished;
         }
 
-        public void ShowSettings()
+        IEnumerator RunPanels()
         {
-            if (settingsPanelPrefab == null)
+            for (int i = 0; i < panels.Count; i++)
             {
-                StartIntro();
-                return;
+                if (panels[i] == null) continue;
+                yield return ShowPanel(panels[i]);
             }
 
-            bool isCanvasPrefab = settingsPanelPrefab.GetComponent<Canvas>() != null;
-            Canvas hostCanvas = FindObjectOfType<Canvas>();
+            StartIntro();
+        }
 
-            if (isCanvasPrefab)
-            {
-                panelInstance = Instantiate(settingsPanelPrefab);
-                var prefabCanvas = panelInstance.GetComponent<Canvas>();
-                if (prefabCanvas != null) prefabCanvas.sortingOrder = 100;
-            }
-            else
-            {
-                Transform parent = hostCanvas != null ? hostCanvas.transform : transform;
-                panelInstance = Instantiate(settingsPanelPrefab, parent);
-
-                var rect = panelInstance.GetComponent<RectTransform>();
-                if (rect != null)
-                {
-                    rect.anchorMin = Vector2.zero;
-                    rect.anchorMax = Vector2.one;
-                    rect.offsetMin = Vector2.zero;
-                    rect.offsetMax = Vector2.zero;
-                    rect.localScale = Vector3.one;
-                }
-            }
-
-            panelInstance.name = "OpeningCanvas";
+        IEnumerator ShowPanel(GameObject prefab)
+        {
+            panelInstance = InstantiatePanel(prefab);
+            panelDismissed = false;
 
             Button closeButton = FindButton(panelInstance.transform, closeButtonName);
             if (closeButton != null) closeButton.onClick.AddListener(CloseSettings);
 
-            if (autoCloseSeconds > 0f) Invoke(nameof(CloseSettings), autoCloseSeconds);
+            var narration = panelInstance.GetComponentInChildren<OpeningNarration>(true);
+            if (narration != null)
+            {
+                while (!narration.IsComplete)
+                {
+                    if (anyKeyToContinue && Input.anyKeyDown) break;
+                    yield return null;
+                }
+            }
+            else
+            {
+                float remaining = autoCloseSeconds;
+                while (!panelDismissed)
+                {
+                    if (anyKeyToContinue && Input.anyKeyDown) break;
+                    if (autoCloseSeconds > 0f && (remaining -= Time.unscaledDeltaTime) <= 0f) break;
+                    yield return null;
+                }
+            }
+
+            if (panelInstance != null) Destroy(panelInstance);
+            panelInstance = null;
+        }
+
+        GameObject InstantiatePanel(GameObject prefab)
+        {
+            bool isCanvasPrefab = prefab.GetComponent<Canvas>() != null;
+            bool isNarration = prefab.GetComponent<OpeningNarration>() != null;
+
+            if (isCanvasPrefab || isNarration)
+            {
+                GameObject instance = Instantiate(prefab);
+                var canvas = instance.GetComponent<Canvas>();
+                if (canvas != null) canvas.sortingOrder = 100;
+                return instance;
+            }
+
+            Canvas hostCanvas = FindObjectOfType<Canvas>();
+            Transform parent = hostCanvas != null ? hostCanvas.transform : transform;
+            GameObject panel = Instantiate(prefab, parent);
+
+            var rect = panel.GetComponent<RectTransform>();
+            if (rect != null)
+            {
+                rect.anchorMin = Vector2.zero;
+                rect.anchorMax = Vector2.one;
+                rect.offsetMin = Vector2.zero;
+                rect.offsetMax = Vector2.zero;
+                rect.localScale = Vector3.one;
+            }
+
+            return panel;
         }
 
         public void CloseSettings()
         {
-            if (panelInstance == null) return;
-
-            CancelInvoke();
-            Destroy(panelInstance);
-            panelInstance = null;
-
-            StartIntro();
+            panelDismissed = true;
         }
 
         void StartIntro()
@@ -135,6 +147,13 @@ namespace ThatGameJam
         {
             IntroPlayer.IntroFinished -= OnIntroFinished;
             SetHudVisible(true);
+        }
+
+        void PlayBgm()
+        {
+            AudioClip clip = bgm != null ? bgm : (introPlayer != null ? introPlayer.Bgm : null);
+            if (clip == null || MusicPlayer.Instance == null) return;
+            MusicPlayer.Instance.Play(clip, bgmVolume);
         }
 
         void SetHudVisible(bool visible)

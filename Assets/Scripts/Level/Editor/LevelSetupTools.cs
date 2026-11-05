@@ -322,12 +322,23 @@ namespace ThatGameJam.Level.EditorTools
         [MenuItem("Tools/横版跳跃/⑨ 开场前插入设置界面", false, 9)]
         public static void InsertSettingsBeforeIntro()
         {
-            const string settingsPrefabPath = "Assets/Arts/Prefab/UI/OpeningCanvas.prefab";
-
-            GameObject settingsPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(settingsPrefabPath);
-            if (settingsPrefab == null)
+            string[] panelPaths =
             {
-                Debug.LogError($"[UI] 找不到开场界面预制体 {settingsPrefabPath}");
+                "Assets/Arts/Prefab/UI/Opening.prefab",
+                "Assets/Arts/Prefab/UI/OpeningCanvas.prefab"
+            };
+
+            var panelPrefabs = new List<GameObject>();
+            foreach (string path in panelPaths)
+            {
+                GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(path);
+                if (prefab != null) panelPrefabs.Add(prefab);
+                else Debug.LogWarning($"[UI] 找不到预制体 {path}，已跳过");
+            }
+
+            if (panelPrefabs.Count == 0)
+            {
+                Debug.LogError("[UI] 没有找到任何开场前界面预制体");
                 return;
             }
 
@@ -363,8 +374,15 @@ namespace ThatGameJam.Level.EditorTools
             }
 
             var flowSerialized = new SerializedObject(flow);
-            flowSerialized.FindProperty("settingsPanelPrefab").objectReferenceValue = settingsPrefab;
             flowSerialized.FindProperty("introPlayer").objectReferenceValue = intro;
+
+            SerializedProperty panelsProperty = flowSerialized.FindProperty("panels");
+            panelsProperty.ClearArray();
+            for (int i = 0; i < panelPrefabs.Count; i++)
+            {
+                panelsProperty.InsertArrayElementAtIndex(i);
+                panelsProperty.GetArrayElementAtIndex(i).objectReferenceValue = panelPrefabs[i];
+            }
 
             if (intro != null)
             {
@@ -379,7 +397,7 @@ namespace ThatGameJam.Level.EditorTools
             EditorSceneManager.SaveScene(scene, GameScenePath);
             AddSceneToBuildSettings();
 
-            Debug.Log("[UI] 已插入开场前设置界面：场景启动 → 设置界面 → 关闭 → 播放开场动画 → 关卡");
+            Debug.Log("[UI] 已配置开场前界面：Opening 字幕 → OpeningCanvas → 开场动画 → 关卡");
         }
 
         static void EnsureCanvas()
