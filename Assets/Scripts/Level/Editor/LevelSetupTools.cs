@@ -275,6 +275,82 @@ namespace ThatGameJam.Level.EditorTools
             Debug.Log("[关卡] 已接入自动推进：走到地图右端进入下一关，第 7 关后回到第 1 关");
         }
 
+        [MenuItem("Tools/横版跳跃/⑧ 整理 UI 布局", false, 8)]
+        public static void LayoutGameUi()
+        {
+            const string uiPrefabPath = "Assets/Arts/Prefab/UI/UIMainPanel.prefab";
+
+            if (AssetDatabase.LoadAssetAtPath<GameObject>(uiPrefabPath) == null)
+            {
+                Debug.LogError($"[UI] 找不到 UI 预制体 {uiPrefabPath}");
+                return;
+            }
+
+            GameObject root = PrefabUtility.LoadPrefabContents(uiPrefabPath);
+            if (root == null) return;
+
+            Transform topGroup = FindChildRecursive(root.transform, "TopButtonGroup");
+            if (topGroup != null)
+            {
+                SetAnchored(topGroup.Find("RestartButton"), 0.06f, new Vector2(64f, 64f));
+                SetAnchored(topGroup.Find("HomeButton"), 0.15f, new Vector2(64f, 64f));
+                SetAnchored(topGroup.Find("SettingsButton"), 0.24f, new Vector2(64f, 64f));
+                SetAnchored(topGroup.Find("HeartButton"), 0.33f, new Vector2(64f, 64f));
+                SetAnchored(topGroup.Find("PlaybackBackwardButton"), 0.67f, new Vector2(64f, 64f));
+                SetAnchored(topGroup.Find("PlayPauseButton"), 0.76f, new Vector2(64f, 64f));
+                SetAnchored(topGroup.Find("PlaybackForwardButton"), 0.85f, new Vector2(64f, 64f));
+                SetAnchored(topGroup.Find("MusicToggleButton"), 0.94f, new Vector2(64f, 64f));
+            }
+
+            Transform directionPad = FindChildRecursive(root.transform, "DirectionPad");
+            if (directionPad != null)
+            {
+                var padRect = directionPad as RectTransform;
+                if (padRect != null)
+                {
+                    padRect.anchorMin = new Vector2(0.14f, 0.24f);
+                    padRect.anchorMax = new Vector2(0.14f, 0.24f);
+                    padRect.pivot = new Vector2(0.5f, 0.5f);
+                    padRect.anchoredPosition = Vector2.zero;
+                    padRect.sizeDelta = new Vector2(200f, 180f);
+                }
+            }
+
+            PrefabUtility.SaveAsPrefabAsset(root, uiPrefabPath);
+            PrefabUtility.UnloadPrefabContents(root);
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+
+            Debug.Log("[UI] 布局已整理：顶部按钮等距分布，方向键移到左下角");
+        }
+
+        static void SetAnchored(Transform target, float anchorX, Vector2 size)
+        {
+            if (target == null) return;
+
+            var rect = target as RectTransform;
+            if (rect == null) return;
+
+            rect.anchorMin = new Vector2(anchorX, 0.5f);
+            rect.anchorMax = new Vector2(anchorX, 0.5f);
+            rect.pivot = new Vector2(0.5f, 0.5f);
+            rect.anchoredPosition = Vector2.zero;
+            rect.sizeDelta = size;
+        }
+
+        static Transform FindChildRecursive(Transform root, string name)
+        {
+            if (root.name == name) return root;
+
+            for (int i = 0; i < root.childCount; i++)
+            {
+                Transform found = FindChildRecursive(root.GetChild(i), name);
+                if (found != null) return found;
+            }
+
+            return null;
+        }
+
         [MenuItem("Tools/横版跳跃/⑦ 接入游戏 UI", false, 7)]
         public static void WireGameUi()
         {
