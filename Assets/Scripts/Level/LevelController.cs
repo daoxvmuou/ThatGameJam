@@ -29,6 +29,7 @@ namespace ThatGameJam.Level
         [SerializeField] private int backgroundSortingOrder = -100;
         [SerializeField] private int scenerySortingOrder = -50;
         [SerializeField] private int platformSortingOrder = 0;
+        [SerializeField] private int foregroundSortingOrder = 20;
 
         [Header("实例化")]
         [SerializeField] private bool resetPartTransform = true;
@@ -162,8 +163,9 @@ namespace ThatGameJam.Level
             GameObject backgroundPart = SpawnPart(definition.Background, host.transform, "Background", backgroundSortingOrder);
             GameObject sceneryPart = SpawnPart(definition.Scenery, host.transform, "Scenery", scenerySortingOrder);
             GameObject platformPart = SpawnPart(definition.Platform, host.transform, "Platform", platformSortingOrder);
+            GameObject foregroundPart = SpawnPart(definition.Foreground, host.transform, "Foreground", foregroundSortingOrder);
 
-            root.Bind(definition, backgroundPart, platformPart, sceneryPart);
+            root.Bind(definition, backgroundPart, platformPart, sceneryPart, foregroundPart);
 
             Root = root;
             Current = definition;

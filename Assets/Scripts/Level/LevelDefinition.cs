@@ -14,12 +14,16 @@ namespace ThatGameJam.Level
         [Tooltip("外景 Prefab，位于背景与平台之间")]
         [SerializeField] private GameObject scenery;
 
+        [Tooltip("前景 Prefab，渲染在玩家之上，用于遮挡")]
+        [SerializeField] private GameObject foreground;
+
         [Tooltip("背景音乐，循环播放")]
         [SerializeField] private AudioClip music;
 
         public GameObject Background => background;
         public GameObject Platform => platform;
         public GameObject Scenery => scenery;
+        public GameObject Foreground => foreground;
         public AudioClip Music => music;
     }
 }
