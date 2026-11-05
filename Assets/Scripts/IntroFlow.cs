@@ -21,6 +21,13 @@ namespace ThatGameJam
         [SerializeField] private string hudRootName = "UIMainPanel";
 
         private GameObject panelInstance;
+        private Transform hudRoot;
+
+        void Awake()
+        {
+            hudRoot = FindHudRoot();
+            SetHudVisible(false);
+        }
 
         void Start()
         {
@@ -39,6 +46,7 @@ namespace ThatGameJam
         void OnDestroy()
         {
             CancelInvoke();
+            IntroPlayer.IntroFinished -= OnIntroFinished;
         }
 
         public void ShowSettings()
@@ -79,8 +87,6 @@ namespace ThatGameJam
             Button closeButton = FindButton(panelInstance.transform, closeButtonName);
             if (closeButton != null) closeButton.onClick.AddListener(CloseSettings);
 
-            SetHudVisible(false);
-
             if (autoCloseSeconds > 0f) Invoke(nameof(CloseSettings), autoCloseSeconds);
         }
 
@@ -97,14 +103,15 @@ namespace ThatGameJam
 
         void StartIntro()
         {
-            SetHudVisible(true);
-
             if (introPlayer != null)
             {
+                IntroPlayer.IntroFinished += OnIntroFinished;
                 introPlayer.gameObject.SetActive(true);
                 introPlayer.Play();
                 return;
             }
+
+            SetHudVisible(true);
 
             if (LevelController.Instance != null && !LevelController.Instance.IsLoaded)
             {
@@ -112,14 +119,29 @@ namespace ThatGameJam
             }
         }
 
+        void OnIntroFinished()
+        {
+            IntroPlayer.IntroFinished -= OnIntroFinished;
+            SetHudVisible(true);
+        }
+
         void SetHudVisible(bool visible)
         {
-            if (string.IsNullOrEmpty(hudRootName)) return;
+            if (hudRoot != null) hudRoot.gameObject.SetActive(visible);
+        }
 
-            Canvas canvas = FindObjectOfType<Canvas>();
-            Transform parent = canvas != null ? canvas.transform : transform;
-            Transform hud = FindTransform(parent, hudRootName);
-            if (hud != null) hud.gameObject.SetActive(visible);
+        Transform FindHudRoot()
+        {
+            if (string.IsNullOrEmpty(hudRootName)) return null;
+
+            Canvas[] canvases = FindObjectsOfType<Canvas>(true);
+            for (int i = 0; i < canvases.Length; i++)
+            {
+                Transform found = FindTransform(canvases[i].transform, hudRootName);
+                if (found != null) return found;
+            }
+
+            return null;
         }
 
         static Transform FindTransform(Transform root, string name)

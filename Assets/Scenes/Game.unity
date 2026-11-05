@@ -151,8 +151,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c3f5a2b1d4e4f6091a2b3c4d5e6e037, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  settingsPanelPrefab: {fileID: 3762023411817560317, guid: cac40a48911312c4c9d2ed423797c609, type: 3}
+  settingsPanelPrefab: {fileID: 6442337095366089634, guid: 82c066cf99c051341854a640ce7a32e1, type: 3}
   closeButtonName: CloseButton
+  anyKeyToContinue: 1
+  autoCloseSeconds: 0
   introPlayer: {fileID: 770000003}
   hudRootName: UIMainPanel
 --- !u!4 &192229457
