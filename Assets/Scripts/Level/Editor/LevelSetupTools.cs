@@ -275,6 +275,50 @@ namespace ThatGameJam.Level.EditorTools
             Debug.Log("[关卡] 已接入自动推进：走到地图右端进入下一关，第 7 关后回到第 1 关");
         }
 
+        [MenuItem("Tools/横版跳跃/⑩ 接入青蛙气泡交互", false, 10)]
+        public static void WireFrogBubble()
+        {
+            const string frogBubblePath = "Assets/Arts/Prefab/Character/FrogBubble.prefab";
+            const string playerBubblePath = "Assets/Arts/Prefab/Character/PlayerBubble.prefab";
+
+            GameObject frogBubble = AssetDatabase.LoadAssetAtPath<GameObject>(frogBubblePath);
+            GameObject playerBubble = AssetDatabase.LoadAssetAtPath<GameObject>(playerBubblePath);
+
+            if (frogBubble == null || playerBubble == null)
+            {
+                Debug.LogError("[对话] 找不到 FrogBubble 或 PlayerBubble 预制体");
+                return;
+            }
+
+            if (!File.Exists(GameScenePath))
+            {
+                Debug.LogError($"[对话] 找不到场景 {GameScenePath}，请先执行 ① 或 ③。");
+                return;
+            }
+
+            if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) return;
+
+            Scene scene = EditorSceneManager.OpenScene(GameScenePath, OpenSceneMode.Single);
+
+            FrogBubbleInteractor interactor = UnityEngine.Object.FindObjectOfType<FrogBubbleInteractor>();
+            if (interactor == null)
+            {
+                var go = new GameObject("FrogBubbleInteractor");
+                interactor = go.AddComponent<FrogBubbleInteractor>();
+            }
+
+            var serialized = new SerializedObject(interactor);
+            serialized.FindProperty("frogBubblePrefab").objectReferenceValue = frogBubble;
+            serialized.FindProperty("playerBubblePrefab").objectReferenceValue = playerBubble;
+            serialized.FindProperty("viewCamera").objectReferenceValue = UnityEngine.Object.FindObjectOfType<Camera>();
+            serialized.ApplyModifiedPropertiesWithoutUndo();
+
+            EditorSceneManager.MarkSceneDirty(scene);
+            EditorSceneManager.SaveScene(scene, GameScenePath);
+
+            Debug.Log("[对话] 已接入青蛙气泡交互：靠近青蛙按 E 显示左右气泡");
+        }
+
         [MenuItem("Tools/横版跳跃/⑨ 开场前插入设置界面", false, 9)]
         public static void InsertSettingsBeforeIntro()
         {
