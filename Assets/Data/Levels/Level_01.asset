@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Level_01
   m_EditorClassIdentifier: 
   background: {fileID: 2590934748697381930, guid: 2b3c044c553f83944a74f2f7cca197a7, type: 3}
-  platform: {fileID: 0}
+  platform: {fileID: 5670961817595691547, guid: 44024cc34e7b36449acea3f887fecf01, type: 3}
   scenery: {fileID: 0}
   music: {fileID: 0}
