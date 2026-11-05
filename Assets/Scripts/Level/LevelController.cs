@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace ThatGameJam.Level
@@ -30,7 +29,6 @@ namespace ThatGameJam.Level
         [SerializeField] private int backgroundSortingOrder = -100;
         [SerializeField] private int scenerySortingOrder = -50;
         [SerializeField] private int platformSortingOrder = 0;
-        [SerializeField] private int foregroundSortingOrder = 20;
 
         [Header("实例化")]
         [SerializeField] private bool resetPartTransform = true;
@@ -165,14 +163,7 @@ namespace ThatGameJam.Level
             GameObject sceneryPart = SpawnPart(definition.Scenery, host.transform, "Scenery", scenerySortingOrder);
             GameObject platformPart = SpawnPart(definition.Platform, host.transform, "Platform", platformSortingOrder);
 
-            var foregroundParts = new List<GameObject>();
-            for (int i = 0; i < definition.ForegroundCount; i++)
-            {
-                GameObject part = SpawnPart(definition.Foregrounds[i], host.transform, "Foreground_" + i, foregroundSortingOrder + i);
-                if (part != null) foregroundParts.Add(part);
-            }
-
-            root.Bind(definition, backgroundPart, platformPart, sceneryPart, foregroundParts);
+            root.Bind(definition, backgroundPart, platformPart, sceneryPart);
 
             Root = root;
             Current = definition;

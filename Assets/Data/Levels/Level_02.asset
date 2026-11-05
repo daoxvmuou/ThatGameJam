@@ -15,4 +15,7 @@ MonoBehaviour:
   background: {fileID: 0}
   platform: {fileID: 929056381422291180, guid: 2e50cac42ffbdb64699aed7bc3450d94, type: 3}
   scenery: {fileID: 0}
+  foregrounds:
+  - {fileID: 0}
+  - {fileID: 0}
   music: {fileID: 0}
