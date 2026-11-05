@@ -52,10 +52,11 @@ namespace ThatGameJam.Dialogue
         void Awake()
         {
             HideBubbles();
-            if (script == null || player == null || playerBubble == null || playerText == null ||
+            if (player == null) player = FindPlayer();
+            if (script == null || playerBubble == null || playerText == null ||
                 frogBubble == null || frogText == null || frogPortrait == null || viewCamera == null)
             {
-                Debug.LogError("[对话] 请配置剧本、Player、两个气泡及其 Text、青蛙头像和摄像机。", this);
+                Debug.LogError("[对话] 请配置剧本、两个气泡及其 Text、青蛙头像和摄像机。", this);
                 enabled = false;
                 return;
             }
@@ -80,8 +81,22 @@ namespace ThatGameJam.Dialogue
                 frogBubble.GetComponent<SpriteRenderer>().sprite.bounds.size.x);
         }
 
+        static PlayerController FindPlayer()
+        {
+            GameObject found = GameObject.FindGameObjectWithTag("Player");
+            if (found != null)
+            {
+                PlayerController byTag = found.GetComponent<PlayerController>();
+                if (byTag != null) return byTag;
+            }
+
+            return FindObjectOfType<PlayerController>();
+        }
+
         void Update()
         {
+            if (player == null) player = FindPlayer();
+
             if (isTalking && (currentFrog == null || !currentFrog.isActiveAndEnabled || player == null))
             {
                 EndConversation();

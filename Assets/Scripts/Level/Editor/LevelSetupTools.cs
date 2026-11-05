@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using TMPro;
+using ThatGameJam.Dialogue;
 using ThatGameJam.Intro;
 using UnityEditor;
 using UnityEditor.SceneManagement;
@@ -273,6 +275,110 @@ namespace ThatGameJam.Level.EditorTools
             AddSceneToBuildSettings();
 
             Debug.Log("[关卡] 已接入自动推进：走到地图右端进入下一关，第 7 关后回到第 1 关");
+        }
+
+        [MenuItem("Tools/横版跳跃/⑫ 接入青蛙对话系统", false, 12)]
+        public static void WireDialogueSystem()
+        {
+            const string scriptPath = "Assets/Data/Dialogue/FrogConversations.json";
+            const string frogBubblePath = "Assets/Arts/Prefab/Character/FrogBubble.prefab";
+            const string playerBubblePath = "Assets/Arts/Prefab/Character/PlayerBubble.prefab";
+
+            var scriptAsset = AssetDatabase.LoadAssetAtPath<TextAsset>(scriptPath);
+            GameObject frogBubblePrefab = AssetDatabase.LoadAssetAtPath<GameObject>(frogBubblePath);
+            GameObject playerBubblePrefab = AssetDatabase.LoadAssetAtPath<GameObject>(playerBubblePath);
+
+            if (scriptAsset == null || frogBubblePrefab == null || playerBubblePrefab == null)
+            {
+                Debug.LogError("[对话] 缺少剧本或气泡预制体");
+                return;
+            }
+
+            if (!File.Exists(GameScenePath))
+            {
+                Debug.LogError($"[对话] 找不到场景 {GameScenePath}，请先执行 ① 或 ③。");
+                return;
+            }
+
+            if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) return;
+
+            Scene scene = EditorSceneManager.OpenScene(GameScenePath, OpenSceneMode.Single);
+
+            DialogueController existing = UnityEngine.Object.FindObjectOfType<DialogueController>();
+            if (existing != null)
+            {
+                Debug.Log("[对话] 场景中已存在 DialogueController，仅更新引用");
+                WireDialogue(existing, scriptAsset, frogBubblePrefab, playerBubblePrefab);
+                EditorSceneManager.MarkSceneDirty(scene);
+                EditorSceneManager.SaveScene(scene, GameScenePath);
+                return;
+            }
+
+            var controllerGo = new GameObject("DialogueController");
+            DialogueController controller = controllerGo.AddComponent<DialogueController>();
+
+            GameObject frogBubble = (GameObject)PrefabUtility.InstantiatePrefab(frogBubblePrefab);
+            frogBubble.name = "FrogBubble";
+            frogBubble.SetActive(false);
+
+            GameObject playerBubble = (GameObject)PrefabUtility.InstantiatePrefab(playerBubblePrefab);
+            playerBubble.name = "PlayerBubble";
+            playerBubble.SetActive(false);
+
+            var portraitGo = new GameObject("FrogPortrait", typeof(SpriteRenderer));
+            portraitGo.transform.SetParent(frogBubble.transform, false);
+            portraitGo.transform.localPosition = new Vector3(0f, 1.6f, 0f);
+            var portraitRenderer = portraitGo.GetComponent<SpriteRenderer>();
+            portraitRenderer.sortingOrder = 30;
+
+            var serialized = new SerializedObject(controller);
+            serialized.FindProperty("script").objectReferenceValue = scriptAsset;
+            serialized.FindProperty("playerBubble").objectReferenceValue = playerBubble;
+            serialized.FindProperty("playerText").objectReferenceValue = playerBubble.GetComponentInChildren<TMP_Text>(true);
+            serialized.FindProperty("frogBubble").objectReferenceValue = frogBubble;
+            serialized.FindProperty("frogText").objectReferenceValue = frogBubble.GetComponentInChildren<TMP_Text>(true);
+            serialized.FindProperty("frogPortrait").objectReferenceValue = portraitRenderer;
+            serialized.FindProperty("viewCamera").objectReferenceValue = UnityEngine.Object.FindObjectOfType<Camera>();
+            serialized.ApplyModifiedPropertiesWithoutUndo();
+
+            FrogBubbleInteractor simple = UnityEngine.Object.FindObjectOfType<FrogBubbleInteractor>();
+            if (simple != null)
+            {
+                simple.enabled = false;
+                Debug.Log("[对话] 已停用 FrogBubbleInteractor（避免与对话系统争抢 E 键）");
+            }
+
+            EditorSceneManager.MarkSceneDirty(scene);
+            EditorSceneManager.SaveScene(scene, GameScenePath);
+
+            Debug.Log("[对话] 已接入青蛙对话系统：靠近青蛙按 E 开始，再按 E 推进下一句");
+        }
+
+        static void WireDialogue(DialogueController controller, TextAsset scriptAsset, GameObject frogBubblePrefab, GameObject playerBubblePrefab)
+        {
+            GameObject frogBubble = (GameObject)PrefabUtility.InstantiatePrefab(frogBubblePrefab);
+            frogBubble.name = "FrogBubble";
+            frogBubble.SetActive(false);
+
+            GameObject playerBubble = (GameObject)PrefabUtility.InstantiatePrefab(playerBubblePrefab);
+            playerBubble.name = "PlayerBubble";
+            playerBubble.SetActive(false);
+
+            var portraitGo = new GameObject("FrogPortrait", typeof(SpriteRenderer));
+            portraitGo.transform.SetParent(frogBubble.transform, false);
+            portraitGo.transform.localPosition = new Vector3(0f, 1.6f, 0f);
+            var portraitRenderer = portraitGo.GetComponent<SpriteRenderer>();
+            portraitRenderer.sortingOrder = 30;
+
+            var serialized = new SerializedObject(controller);
+            serialized.FindProperty("script").objectReferenceValue = scriptAsset;
+            serialized.FindProperty("playerBubble").objectReferenceValue = playerBubble;
+            serialized.FindProperty("playerText").objectReferenceValue = playerBubble.GetComponentInChildren<TMP_Text>(true);
+            serialized.FindProperty("frogBubble").objectReferenceValue = frogBubble;
+            serialized.FindProperty("frogText").objectReferenceValue = frogBubble.GetComponentInChildren<TMP_Text>(true);
+            serialized.FindProperty("frogPortrait").objectReferenceValue = portraitRenderer;
+            serialized.FindProperty("viewCamera").objectReferenceValue = UnityEngine.Object.FindObjectOfType<Camera>();
+            serialized.ApplyModifiedPropertiesWithoutUndo();
         }
 
         [MenuItem("Tools/横版跳跃/⑪ 接入结局界面", false, 11)]
