@@ -8,9 +8,15 @@ namespace ThatGameJam
         public static InputManager Instance { get; private set; }
 
         public float Horizontal =>
-            (Input.GetKey(KeyCode.D) ? 1f : 0f) - (Input.GetKey(KeyCode.A) ? 1f : 0f);
+            (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow) ? 1f : 0f) -
+            (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow) ? 1f : 0f);
 
-        public bool JumpPressed => Input.GetKeyDown(KeyCode.W);
+        public bool JumpPressed =>
+            Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.UpArrow);
+
+        public bool JumpHeld =>
+            Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.UpArrow);
+
         public bool InteractPressed => Input.GetKeyDown(KeyCode.E);
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]

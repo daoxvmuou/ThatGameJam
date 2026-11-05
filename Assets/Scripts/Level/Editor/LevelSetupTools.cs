@@ -144,6 +144,92 @@ namespace ThatGameJam.Level.EditorTools
             Debug.Log("[关卡] Game 场景结构已重建：Main Camera / LevelController / LevelRoot / IntroPlayer");
         }
 
+        [MenuItem("Tools/横版跳跃/④ 生成玩家预制体并接入场景", false, 4)]
+        public static void CreatePlayerPrefabAndWire()
+        {
+            const string prefabsFolder = "Assets/Prefabs";
+            const string playerPrefabPath = prefabsFolder + "/Player.prefab";
+
+            EnsureFolder(prefabsFolder);
+
+            GameObject playerPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(playerPrefabPath);
+            if (playerPrefab == null) playerPrefab = BuildPlayerPrefab(playerPrefabPath);
+
+            if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) return;
+
+            Scene scene = File.Exists(GameScenePath)
+                ? EditorSceneManager.OpenScene(GameScenePath, OpenSceneMode.Single)
+                : EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
+
+            Camera camera = UnityEngine.Object.FindObjectOfType<Camera>();
+            if (camera != null && camera.GetComponent<CameraFollow>() == null)
+            {
+                camera.gameObject.AddComponent<CameraFollow>();
+            }
+
+            PlayerSpawner spawner = UnityEngine.Object.FindObjectOfType<PlayerSpawner>();
+            if (spawner == null)
+            {
+                var spawnerGo = new GameObject("PlayerSpawner");
+                spawner = spawnerGo.AddComponent<PlayerSpawner>();
+            }
+
+            var serialized = new SerializedObject(spawner);
+            SerializedProperty prefabProperty = serialized.FindProperty("playerPrefab");
+            if (prefabProperty != null) prefabProperty.objectReferenceValue = playerPrefab;
+            serialized.ApplyModifiedPropertiesWithoutUndo();
+
+            EditorSceneManager.MarkSceneDirty(scene);
+            EditorSceneManager.SaveScene(scene, GameScenePath);
+            AddSceneToBuildSettings();
+
+            Selection.activeObject = playerPrefab;
+            EditorGUIUtility.PingObject(playerPrefab);
+            Debug.Log("[关卡] 玩家预制体已生成，PlayerSpawner 与 CameraFollow 已接入 Game 场景");
+        }
+
+        static GameObject BuildPlayerPrefab(string path)
+        {
+            Sprite sprite = LoadFirstAsset<Sprite>("Assets/Arts/Image/Character/player", "t:Sprite");
+            RuntimeAnimatorController controller = LoadFirstAsset<RuntimeAnimatorController>("Assets/Arts/Image/Character/player", "t:AnimatorController");
+
+            var go = new GameObject("Player");
+            go.tag = "Player";
+
+            var renderer = go.AddComponent<SpriteRenderer>();
+            renderer.sprite = sprite;
+
+            var body = go.AddComponent<Rigidbody2D>();
+            body.gravityScale = 3f;
+            body.constraints = RigidbodyConstraints2D.FreezeRotation;
+            body.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
+            body.interpolation = RigidbodyInterpolation2D.Interpolate;
+
+            var collider = go.AddComponent<BoxCollider2D>();
+            if (sprite != null)
+            {
+                collider.size = sprite.bounds.size;
+                collider.offset = sprite.bounds.center;
+            }
+
+            var animator = go.AddComponent<Animator>();
+            animator.runtimeAnimatorController = controller;
+
+            go.AddComponent<PlayerController>();
+
+            GameObject prefab = PrefabUtility.SaveAsPrefabAsset(go, path);
+            UnityEngine.Object.DestroyImmediate(go);
+            AssetDatabase.SaveAssets();
+            return prefab;
+        }
+
+        static T LoadFirstAsset<T>(string folder, string filter) where T : UnityEngine.Object
+        {
+            string[] guids = AssetDatabase.FindAssets(filter, new[] { folder });
+            if (guids == null || guids.Length == 0) return null;
+            return AssetDatabase.LoadAssetAtPath<T>(AssetDatabase.GUIDToAssetPath(guids[0]));
+        }
+
         static void CreateGameScene(LevelRegistry registry)
         {
             if (File.Exists(GameScenePath))
