@@ -473,6 +473,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1556533225300069622}
   - component: {fileID: 8098523917777273045}
+  - component: {fileID: 8802617422583835136}
   m_Layer: 0
   m_Name: bg
   m_TagString: Untagged
@@ -535,7 +536,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 20
   m_Sprite: {fileID: 21300000, guid: 87de1b39cf07fc2408c7550a09b04603, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -547,3 +548,17 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &8802617422583835136
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3908614396887810834}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c3f5a2b1d4e4f6091a2b3c4d5e6e035, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sortingOrder: 20
+  applyToChildren: 1

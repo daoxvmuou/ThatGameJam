@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5283429506332806949}
   - component: {fileID: 5768117816155340812}
+  - component: {fileID: 8444302691536147629}
   m_Layer: 0
   m_Name: bg2
   m_TagString: Untagged
@@ -72,7 +73,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 20
   m_Sprite: {fileID: 21300000, guid: 8de192a14b801384aa63d953282f064b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -84,6 +85,20 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &8444302691536147629
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1264726674932198000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c3f5a2b1d4e4f6091a2b3c4d5e6e035, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sortingOrder: 20
+  applyToChildren: 1
 --- !u!1 &2390932551689154963
 GameObject:
   m_ObjectHideFlags: 0
