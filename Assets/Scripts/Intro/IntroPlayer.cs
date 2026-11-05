@@ -38,6 +38,9 @@ namespace ThatGameJam.Intro
         AudioSource audioSource;
         bool started;
         bool finished;
+        float playStartTime;
+        float requestTime;
+        float introDuration = 3f;
 
         public bool IsPlaying => started && !finished;
 
@@ -49,7 +52,12 @@ namespace ThatGameJam.Intro
         void Update()
         {
             if (!started || finished) return;
-            if (SkipKeyPressed()) Finish();
+            if (SkipKeyPressed())
+            {
+                Finish();
+                return;
+            }
+            CheckDuration();
         }
 
         void OnDestroy()
@@ -73,6 +81,9 @@ namespace ThatGameJam.Intro
                 Finish();
                 return;
             }
+
+            introDuration = videoClip.length > 0.1 ? (float)videoClip.length : 3f;
+            requestTime = Time.unscaledTime;
 
             BuildUI();
             BuildPlayer();
@@ -125,8 +136,8 @@ namespace ThatGameJam.Intro
             player.targetTexture = renderTexture;
             player.audioOutputMode = useVideoAudio ? VideoAudioOutputMode.Direct : VideoAudioOutputMode.None;
             player.isLooping = false;
-            player.skipOnDrop = true;
-            player.loopPointReached += OnVideoEnd;
+            player.skipOnDrop = false;
+            player.errorReceived += OnVideoError;
 
             player.Prepare();
             player.prepareCompleted += OnPrepared;
@@ -137,6 +148,12 @@ namespace ThatGameJam.Intro
             source.prepareCompleted -= OnPrepared;
             if (finished) return;
             source.Play();
+            playStartTime = Time.unscaledTime;
+        }
+
+        void OnVideoError(VideoPlayer source, string message)
+        {
+            Debug.LogError($"[开场] 视频播放失败：{message}", this);
         }
 
         void BuildAudio()
@@ -151,9 +168,19 @@ namespace ThatGameJam.Intro
             audioSource.Play();
         }
 
-        void OnVideoEnd(VideoPlayer source)
+        void CheckDuration()
         {
-            Finish();
+            if (playStartTime <= 0f)
+            {
+                if (Time.unscaledTime - requestTime > 5f)
+                {
+                    Debug.LogWarning("[开场] 视频加载超时，直接进入关卡。", this);
+                    Finish();
+                }
+                return;
+            }
+
+            if (Time.unscaledTime - playStartTime >= introDuration) Finish();
         }
 
         bool SkipKeyPressed()
@@ -187,7 +214,7 @@ namespace ThatGameJam.Intro
         {
             if (player != null)
             {
-                player.loopPointReached -= OnVideoEnd;
+                player.errorReceived -= OnVideoError;
                 player.prepareCompleted -= OnPrepared;
                 player.Stop();
                 Destroy(player);
