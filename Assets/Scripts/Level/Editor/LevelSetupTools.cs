@@ -275,6 +275,82 @@ namespace ThatGameJam.Level.EditorTools
             Debug.Log("[关卡] 已接入自动推进：走到地图右端进入下一关，第 7 关后回到第 1 关");
         }
 
+        [MenuItem("Tools/横版跳跃/⑨ 开场前插入设置界面", false, 9)]
+        public static void InsertSettingsBeforeIntro()
+        {
+            const string settingsPrefabPath = "Assets/Arts/Prefab/UI/UISettingPanel.prefab";
+
+            GameObject settingsPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(settingsPrefabPath);
+            if (settingsPrefab == null)
+            {
+                Debug.LogError($"[UI] 找不到设置界面预制体 {settingsPrefabPath}");
+                return;
+            }
+
+            if (!File.Exists(GameScenePath))
+            {
+                Debug.LogError($"[UI] 找不到场景 {GameScenePath}，请先执行 ① 或 ③。");
+                return;
+            }
+
+            if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) return;
+
+            Scene scene = EditorSceneManager.OpenScene(GameScenePath, OpenSceneMode.Single);
+
+            EnsureCanvas();
+
+            IntroPlayer intro = UnityEngine.Object.FindObjectOfType<IntroPlayer>(true);
+            if (intro != null)
+            {
+                var introSerialized = new SerializedObject(intro);
+                introSerialized.FindProperty("playOnStart").boolValue = false;
+                introSerialized.ApplyModifiedPropertiesWithoutUndo();
+            }
+            else
+            {
+                Debug.LogWarning("[UI] 场景里没有 IntroPlayer，设置界面关闭后会直接加载关卡");
+            }
+
+            IntroFlow flow = UnityEngine.Object.FindObjectOfType<IntroFlow>();
+            if (flow == null)
+            {
+                var flowGo = new GameObject("IntroFlow");
+                flow = flowGo.AddComponent<IntroFlow>();
+            }
+
+            var flowSerialized = new SerializedObject(flow);
+            flowSerialized.FindProperty("settingsPanelPrefab").objectReferenceValue = settingsPrefab;
+            flowSerialized.FindProperty("introPlayer").objectReferenceValue = intro;
+            flowSerialized.ApplyModifiedPropertiesWithoutUndo();
+
+            EditorSceneManager.MarkSceneDirty(scene);
+            EditorSceneManager.SaveScene(scene, GameScenePath);
+            AddSceneToBuildSettings();
+
+            Debug.Log("[UI] 已插入开场前设置界面：场景启动 → 设置界面 → 关闭 → 播放开场动画 → 关卡");
+        }
+
+        static void EnsureCanvas()
+        {
+            Canvas canvas = UnityEngine.Object.FindObjectOfType<Canvas>();
+            if (canvas == null)
+            {
+                var canvasGo = new GameObject("GameCanvas", typeof(Canvas), typeof(CanvasScaler), typeof(GraphicRaycaster));
+                canvas = canvasGo.GetComponent<Canvas>();
+                canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+
+                var scaler = canvasGo.GetComponent<CanvasScaler>();
+                scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+                scaler.referenceResolution = new Vector2(1920f, 1080f);
+                scaler.matchWidthOrHeight = 0.5f;
+            }
+
+            if (UnityEngine.Object.FindObjectOfType<UnityEngine.EventSystems.EventSystem>() == null)
+            {
+                new GameObject("EventSystem", typeof(UnityEngine.EventSystems.EventSystem), typeof(UnityEngine.EventSystems.StandaloneInputModule));
+            }
+        }
+
         [MenuItem("Tools/横版跳跃/⑧ 整理 UI 布局", false, 8)]
         public static void LayoutGameUi()
         {
