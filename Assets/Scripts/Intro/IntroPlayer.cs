@@ -27,7 +27,7 @@ namespace ThatGameJam.Intro
         [SerializeField] private int levelIndex = 0;
 
         [Header("跳过")]
-        [SerializeField] private KeyCode[] skipKeys = { KeyCode.W, KeyCode.S, KeyCode.C };
+        [SerializeField] private KeyCode[] skipKeys = { KeyCode.Escape };
 
         [Header("画面")]
         [SerializeField] private Color backgroundColor = Color.black;
