@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace ThatGameJam.Level
@@ -14,8 +15,8 @@ namespace ThatGameJam.Level
         [Tooltip("外景 Prefab，位于背景与平台之间")]
         [SerializeField] private GameObject scenery;
 
-        [Tooltip("前景 Prefab，渲染在玩家之上，用于遮挡")]
-        [SerializeField] private GameObject foreground;
+        [Tooltip("前景 Prefab 列表，渲染在玩家之上，列表越靠后越靠前")]
+        [SerializeField] private List<GameObject> foregrounds = new List<GameObject>();
 
         [Tooltip("背景音乐，循环播放")]
         [SerializeField] private AudioClip music;
@@ -23,7 +24,9 @@ namespace ThatGameJam.Level
         public GameObject Background => background;
         public GameObject Platform => platform;
         public GameObject Scenery => scenery;
-        public GameObject Foreground => foreground;
+        public IReadOnlyList<GameObject> Foregrounds => foregrounds;
         public AudioClip Music => music;
+
+        public int ForegroundCount => foregrounds != null ? foregrounds.Count : 0;
     }
 }
