@@ -24,13 +24,15 @@ namespace ThatGameJam
 
         [Header("地面检测")]
         [SerializeField] private LayerMask groundLayers = ~0;
-        [SerializeField] private float groundCheckDistance = 0.12f;
+        [SerializeField] private float groundCheckDistance = 0.15f;
+        [SerializeField, Range(0f, 1f)] private float minGroundNormalY = 0.45f;
 
         private Rigidbody2D body;
         private Animator animator;
         private SpriteRenderer spriteRenderer;
         private Collider2D bodyCollider;
         private readonly Collider2D[] groundHits = new Collider2D[8];
+        private readonly RaycastHit2D[] groundCastHits = new RaycastHit2D[8];
         private float horizontal;
         private float coyoteCounter;
         private float bufferCounter;
@@ -110,19 +112,47 @@ namespace ThatGameJam
             if (bodyCollider == null) return false;
 
             Bounds bounds = bodyCollider.bounds;
+            if (GroundCast(bounds)) return true;
+            return GroundOverlap(bounds);
+        }
+
+        bool GroundCast(Bounds bounds)
+        {
+            float width = Mathf.Max(0.05f, bounds.size.x * 0.85f);
+            float height = Mathf.Max(0.05f, bounds.size.y * 0.25f);
+            Vector2 origin = new Vector2(bounds.center.x, bounds.min.y + height * 0.5f + 0.01f);
+
+            int count = Physics2D.BoxCastNonAlloc(origin, new Vector2(width, height), 0f, Vector2.down, groundCastHits, groundCheckDistance, groundLayers);
+            for (int i = 0; i < count; i++)
+            {
+                RaycastHit2D hit = groundCastHits[i];
+                if (!IsGroundCollider(hit.collider)) continue;
+                if (hit.normal.y >= minGroundNormalY) return true;
+                if (hit.distance <= 0.001f && hit.point.y <= bounds.min.y + 0.05f) return true;
+            }
+
+            return false;
+        }
+
+        bool GroundOverlap(Bounds bounds)
+        {
             Vector2 center = new Vector2(bounds.center.x, bounds.min.y - groundCheckDistance * 0.5f);
             Vector2 size = new Vector2(Mathf.Max(0.05f, bounds.size.x * 0.9f), groundCheckDistance);
 
             int count = Physics2D.OverlapBoxNonAlloc(center, size, 0f, groundHits, groundLayers);
             for (int i = 0; i < count; i++)
             {
-                Collider2D hit = groundHits[i];
-                if (hit == null || hit == bodyCollider || hit.isTrigger) continue;
-                if (hit.attachedRigidbody != null && hit.attachedRigidbody == body) continue;
-                return true;
+                if (IsGroundCollider(groundHits[i])) return true;
             }
 
             return false;
+        }
+
+        bool IsGroundCollider(Collider2D candidate)
+        {
+            if (candidate == null || candidate == bodyCollider || candidate.isTrigger) return false;
+            if (candidate.attachedRigidbody != null && candidate.attachedRigidbody == body) return false;
+            return true;
         }
 
         public void SetControlEnabled(bool enabled)
