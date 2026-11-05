@@ -22,10 +22,15 @@ namespace ThatGameJam
 
         private static readonly int IsMove = Animator.StringToHash("IsMove");
 
+        [Header("地面检测")]
+        [SerializeField] private LayerMask groundLayers = ~0;
+        [SerializeField] private float groundCheckDistance = 0.12f;
+
         private Rigidbody2D body;
         private Animator animator;
         private SpriteRenderer spriteRenderer;
-        private ContactFilter2D groundFilter;
+        private Collider2D bodyCollider;
+        private readonly Collider2D[] groundHits = new Collider2D[8];
         private float horizontal;
         private float coyoteCounter;
         private float bufferCounter;
@@ -40,15 +45,8 @@ namespace ThatGameJam
             body = GetComponent<Rigidbody2D>();
             animator = GetComponent<Animator>();
             spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+            bodyCollider = GetComponent<Collider2D>();
             body.constraints |= RigidbodyConstraints2D.FreezeRotation;
-
-            groundFilter = new ContactFilter2D
-            {
-                useTriggers = false,
-                useNormalAngle = true,
-                minNormalAngle = 45f,
-                maxNormalAngle = 135f
-            };
         }
 
         void Update()
@@ -81,7 +79,7 @@ namespace ThatGameJam
         void FixedUpdate()
         {
             Vector2 velocity = body.velocity;
-            IsGrounded = body.IsTouching(groundFilter);
+            IsGrounded = CheckGrounded();
 
             float control = IsGrounded ? 1f : airControl;
             velocity.x = horizontal * moveSpeed * control;
@@ -105,6 +103,26 @@ namespace ThatGameJam
             }
 
             body.velocity = velocity;
+        }
+
+        bool CheckGrounded()
+        {
+            if (bodyCollider == null) return false;
+
+            Bounds bounds = bodyCollider.bounds;
+            Vector2 center = new Vector2(bounds.center.x, bounds.min.y - groundCheckDistance * 0.5f);
+            Vector2 size = new Vector2(Mathf.Max(0.05f, bounds.size.x * 0.9f), groundCheckDistance);
+
+            int count = Physics2D.OverlapBoxNonAlloc(center, size, 0f, groundHits, groundLayers);
+            for (int i = 0; i < count; i++)
+            {
+                Collider2D hit = groundHits[i];
+                if (hit == null || hit == bodyCollider || hit.isTrigger) continue;
+                if (hit.attachedRigidbody != null && hit.attachedRigidbody == body) continue;
+                return true;
+            }
+
+            return false;
         }
 
         public void SetControlEnabled(bool enabled)
