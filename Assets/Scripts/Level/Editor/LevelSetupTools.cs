@@ -198,6 +198,7 @@ namespace ThatGameJam.Level.EditorTools
 
             var renderer = go.AddComponent<SpriteRenderer>();
             renderer.sprite = sprite;
+            renderer.sortingOrder = 10;
 
             var body = go.AddComponent<Rigidbody2D>();
             body.gravityScale = 3f;
