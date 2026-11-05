@@ -263,6 +263,9 @@ MonoBehaviour:
   rightMargin: 0.5
   fallbackHalfWidth: 20
   loopToFirstLevel: 1
+  endScreenPrefab: {fileID: 100000, guid: d43c7cf7cc014c65bd36e3ad56bc111e, type: 3}
+  showEndScreenOnLastLevel: 1
+  stopPlayerAtEnd: 1
 --- !u!4 &558908325
 Transform:
   m_ObjectHideFlags: 0
