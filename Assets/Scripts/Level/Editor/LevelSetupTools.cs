@@ -242,6 +242,38 @@ namespace ThatGameJam.Level.EditorTools
             Debug.Log($"[关卡] 已生成并注册 {lines.Count} 个关卡\n  " + string.Join("\n  ", lines));
         }
 
+        [MenuItem("Tools/横版跳跃/⑥ 接入关卡自动推进", false, 6)]
+        public static void WireAutoAdvance()
+        {
+            if (!File.Exists(GameScenePath))
+            {
+                Debug.LogError($"[关卡] 找不到场景 {GameScenePath}，请先执行 ① 或 ③。");
+                return;
+            }
+
+            if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) return;
+
+            Scene scene = EditorSceneManager.OpenScene(GameScenePath, OpenSceneMode.Single);
+
+            if (UnityEngine.Object.FindObjectOfType<LevelAutoAdvance>() == null)
+            {
+                var advanceGo = new GameObject("LevelAutoAdvance");
+                advanceGo.AddComponent<LevelAutoAdvance>();
+            }
+
+            if (UnityEngine.Object.FindObjectOfType<LevelHotkeys>() == null)
+            {
+                var hotkeyGo = new GameObject("LevelHotkeys");
+                hotkeyGo.AddComponent<LevelHotkeys>();
+            }
+
+            EditorSceneManager.MarkSceneDirty(scene);
+            EditorSceneManager.SaveScene(scene, GameScenePath);
+            AddSceneToBuildSettings();
+
+            Debug.Log("[关卡] 已接入自动推进：走到地图右端进入下一关，第 7 关后回到第 1 关");
+        }
+
         static void AddHotkeysToGameScene()
         {
             if (!File.Exists(GameScenePath)) return;
