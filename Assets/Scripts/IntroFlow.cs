@@ -8,9 +8,11 @@ namespace ThatGameJam
     [DisallowMultipleComponent]
     public class IntroFlow : MonoBehaviour
     {
-        [Header("设置界面")]
+        [Header("开场前界面")]
         [SerializeField] private GameObject settingsPanelPrefab;
         [SerializeField] private string closeButtonName = "CloseButton";
+        [SerializeField] private bool anyKeyToContinue = true;
+        [SerializeField] private float autoCloseSeconds = 0f;
 
         [Header("开场动画")]
         [SerializeField] private IntroPlayer introPlayer;
@@ -25,6 +27,20 @@ namespace ThatGameJam
             ShowSettings();
         }
 
+        void Update()
+        {
+            if (panelInstance == null) return;
+            if (!anyKeyToContinue) return;
+            if (!Input.anyKeyDown) return;
+
+            CloseSettings();
+        }
+
+        void OnDestroy()
+        {
+            CancelInvoke();
+        }
+
         public void ShowSettings()
         {
             if (settingsPanelPrefab == null)
@@ -33,42 +49,48 @@ namespace ThatGameJam
                 return;
             }
 
-            Canvas canvas = FindObjectOfType<Canvas>();
-            Transform parent = canvas != null ? canvas.transform : transform;
+            bool isCanvasPrefab = settingsPanelPrefab.GetComponent<Canvas>() != null;
+            Canvas hostCanvas = FindObjectOfType<Canvas>();
 
-            panelInstance = Instantiate(settingsPanelPrefab, parent);
-            panelInstance.name = "UISettingPanel";
-
-            var rect = panelInstance.GetComponent<RectTransform>();
-            if (rect != null)
+            if (isCanvasPrefab)
             {
-                rect.anchorMin = Vector2.zero;
-                rect.anchorMax = Vector2.one;
-                rect.offsetMin = Vector2.zero;
-                rect.offsetMax = Vector2.zero;
-                rect.localScale = Vector3.one;
-            }
-
-            Button closeButton = FindButton(panelInstance.transform, closeButtonName);
-            if (closeButton != null)
-            {
-                closeButton.onClick.AddListener(CloseSettings);
+                panelInstance = Instantiate(settingsPanelPrefab);
+                var prefabCanvas = panelInstance.GetComponent<Canvas>();
+                if (prefabCanvas != null) prefabCanvas.sortingOrder = 100;
             }
             else
             {
-                Debug.LogWarning($"[开场] 设置界面里找不到 {closeButtonName}", this);
+                Transform parent = hostCanvas != null ? hostCanvas.transform : transform;
+                panelInstance = Instantiate(settingsPanelPrefab, parent);
+
+                var rect = panelInstance.GetComponent<RectTransform>();
+                if (rect != null)
+                {
+                    rect.anchorMin = Vector2.zero;
+                    rect.anchorMax = Vector2.one;
+                    rect.offsetMin = Vector2.zero;
+                    rect.offsetMax = Vector2.zero;
+                    rect.localScale = Vector3.one;
+                }
             }
 
+            panelInstance.name = "OpeningCanvas";
+
+            Button closeButton = FindButton(panelInstance.transform, closeButtonName);
+            if (closeButton != null) closeButton.onClick.AddListener(CloseSettings);
+
             SetHudVisible(false);
+
+            if (autoCloseSeconds > 0f) Invoke(nameof(CloseSettings), autoCloseSeconds);
         }
 
         public void CloseSettings()
         {
-            if (panelInstance != null)
-            {
-                Destroy(panelInstance);
-                panelInstance = null;
-            }
+            if (panelInstance == null) return;
+
+            CancelInvoke();
+            Destroy(panelInstance);
+            panelInstance = null;
 
             StartIntro();
         }

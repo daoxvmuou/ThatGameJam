@@ -278,12 +278,12 @@ namespace ThatGameJam.Level.EditorTools
         [MenuItem("Tools/横版跳跃/⑨ 开场前插入设置界面", false, 9)]
         public static void InsertSettingsBeforeIntro()
         {
-            const string settingsPrefabPath = "Assets/Arts/Prefab/UI/UISettingPanel.prefab";
+            const string settingsPrefabPath = "Assets/Arts/Prefab/UI/OpeningCanvas.prefab";
 
             GameObject settingsPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(settingsPrefabPath);
             if (settingsPrefab == null)
             {
-                Debug.LogError($"[UI] 找不到设置界面预制体 {settingsPrefabPath}");
+                Debug.LogError($"[UI] 找不到开场界面预制体 {settingsPrefabPath}");
                 return;
             }
 
