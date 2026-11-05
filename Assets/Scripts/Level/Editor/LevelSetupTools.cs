@@ -10,7 +10,7 @@ namespace ThatGameJam.Level.EditorTools
 {
     public static class LevelSetupTools
     {
-        const string ProjectRoot = "Assets/_Project";
+        const string ProjectRoot = "Assets";
         const string DataFolder = ProjectRoot + "/Data";
         const string LevelsFolder = DataFolder + "/Levels";
         const string RegistryPath = DataFolder + "/LevelRegistry.asset";
