@@ -17,9 +17,12 @@ namespace ThatGameJam
 
         [Header("掉落重生")]
         [SerializeField] private bool respawnOnFall = true;
+        [SerializeField] private bool relativeKillY = true;
+        [SerializeField] private float fallMargin = 3f;
         [SerializeField] private float killY = -12f;
 
         private Bounds levelBounds;
+        private bool hasBounds;
 
         public GameObject Player { get; private set; }
 
@@ -47,7 +50,13 @@ namespace ThatGameJam
         void Update()
         {
             if (!respawnOnFall || Player == null) return;
-            if (Player.transform.position.y < killY) Spawn();
+            if (Player.transform.position.y < ResolveKillY()) Spawn();
+        }
+
+        float ResolveKillY()
+        {
+            if (relativeKillY && hasBounds) return levelBounds.min.y - fallMargin;
+            return killY;
         }
 
         void OnLevelLoaded(LevelDefinition definition)
@@ -88,12 +97,11 @@ namespace ThatGameJam
 
         void RecalculateBounds()
         {
+            hasBounds = false;
+            levelBounds = new Bounds(transform.position, Vector3.zero);
+
             LevelController controller = LevelController.Instance;
-            if (controller == null || controller.Root == null)
-            {
-                levelBounds = new Bounds(transform.position, Vector3.zero);
-                return;
-            }
+            if (controller == null || controller.Root == null) return;
 
             Collider2D[] colliders = controller.Root.GetComponentsInChildren<Collider2D>();
             if (colliders.Length > 0)
@@ -101,6 +109,7 @@ namespace ThatGameJam
                 Bounds bounds = colliders[0].bounds;
                 for (int i = 1; i < colliders.Length; i++) bounds.Encapsulate(colliders[i].bounds);
                 levelBounds = bounds;
+                hasBounds = true;
                 return;
             }
 
@@ -110,10 +119,8 @@ namespace ThatGameJam
                 Bounds bounds = renderers[0].bounds;
                 for (int i = 1; i < renderers.Length; i++) bounds.Encapsulate(renderers[i].bounds);
                 levelBounds = bounds;
-                return;
+                hasBounds = true;
             }
-
-            levelBounds = new Bounds(transform.position, Vector3.zero);
         }
 
         public void Despawn()
