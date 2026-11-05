@@ -1,4 +1,6 @@
+using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using ThatGameJam.Level;
 
 namespace ThatGameJam
@@ -18,6 +20,8 @@ namespace ThatGameJam
         [SerializeField] private GameObject endScreenPrefab;
         [SerializeField] private bool showEndScreenOnLastLevel = true;
         [SerializeField] private bool stopPlayerAtEnd = true;
+        [SerializeField] private bool returnToOpeningAfterEnd = true;
+        [SerializeField] private float returnDelaySeconds = 0.5f;
 
         private Bounds levelBounds;
         private bool hasBounds;
@@ -99,7 +103,31 @@ namespace ThatGameJam
                 }
             }
 
-            Instantiate(endScreenPrefab);
+            GameObject endInstance = Instantiate(endScreenPrefab);
+
+            if (returnToOpeningAfterEnd) StartCoroutine(ReturnToOpening(endInstance));
+        }
+
+        IEnumerator ReturnToOpening(GameObject endInstance)
+        {
+            OpeningNarration narration = endInstance != null ? endInstance.GetComponentInChildren<OpeningNarration>(true) : null;
+
+            if (narration != null)
+            {
+                while (!narration.IsComplete) yield return null;
+            }
+            else
+            {
+                yield return new WaitForSecondsRealtime(3f);
+            }
+
+            if (returnDelaySeconds > 0f) yield return new WaitForSecondsRealtime(returnDelaySeconds);
+
+            Time.timeScale = 1f;
+            AudioListener.pause = false;
+            if (MusicPlayer.Instance != null) MusicPlayer.Instance.Stop();
+
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
 
         void ResolvePlayer()
