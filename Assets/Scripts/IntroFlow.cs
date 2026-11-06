@@ -11,6 +11,8 @@ namespace ThatGameJam
     public class IntroFlow : MonoBehaviour
     {
         [Header("开场前的界面（按顺序播放）")]
+        [SerializeField] private GameObject startPanelPrefab;
+        [SerializeField] private string startButtonName = "startButton";
         [SerializeField] private List<GameObject> panels = new List<GameObject>();
         [SerializeField] private string closeButtonName = "CloseButton";
         [SerializeField] private bool anyKeyToContinue = true;
@@ -39,7 +41,7 @@ namespace ThatGameJam
 
         void Start()
         {
-            StartCoroutine(RunPanels());
+            StartCoroutine(RunStartFlow());
         }
 
         void OnDestroy()
@@ -47,7 +49,7 @@ namespace ThatGameJam
             IntroPlayer.IntroFinished -= OnIntroFinished;
         }
 
-        IEnumerator RunPanels()
+        IEnumerator RunPanels(bool replay)
         {
             for (int i = 0; i < panels.Count; i++)
             {
@@ -55,7 +57,37 @@ namespace ThatGameJam
                 yield return ShowPanel(panels[i]);
             }
 
-            StartIntro();
+            StartIntro(replay);
+        }
+
+        IEnumerator RunStartFlow(bool replay = false)
+        {
+            if (startPanelPrefab != null)
+            {
+                panelInstance = InstantiatePanel(startPanelPrefab);
+                panelDismissed = false;
+
+                Button startButton = FindButton(panelInstance.transform, startButtonName);
+                if (startButton != null)
+                {
+                    startButton.onClick.AddListener(CloseSettings);
+                }
+                else
+                {
+                    Debug.LogWarning($"[开场] 找不到开始按钮 {startButtonName}", this);
+                    panelDismissed = true;
+                }
+
+                Button quitButton = FindButton(panelInstance.transform, "QuitButton");
+                if (quitButton != null) quitButton.onClick.AddListener(() => Application.Quit());
+
+                while (!panelDismissed) yield return null;
+                DestroyActivePanel();
+                // 避免开始按钮的点击同时跳过 Opening 字幕。
+                yield return null;
+            }
+
+            yield return RunPanels(replay);
         }
 
         IEnumerator ShowPanel(GameObject prefab)
@@ -98,6 +130,7 @@ namespace ThatGameJam
             if (isCanvasPrefab || isNarration)
             {
                 GameObject instance = Instantiate(prefab);
+                instance.transform.localScale = Vector3.one;
                 var canvas = instance.GetComponent<Canvas>();
                 if (canvas != null) canvas.sortingOrder = 100;
                 return instance;
@@ -125,13 +158,45 @@ namespace ThatGameJam
             panelDismissed = true;
         }
 
-        void StartIntro()
+        public void ReturnToTitleScreen()
+        {
+            StopAllCoroutines();
+            DestroyActivePanel();
+            SetHudVisible(false);
+
+            if (LevelController.Instance != null) LevelController.Instance.Unload();
+
+            PlayBgm();
+
+            StartCoroutine(RunStartFlow(true));
+        }
+
+        public void PlayOpeningAnimation()
+        {
+            StopAllCoroutines();
+            DestroyActivePanel();
+            SetHudVisible(false);
+
+            if (LevelController.Instance != null) LevelController.Instance.Unload();
+            StartIntro(true);
+        }
+
+        void DestroyActivePanel()
+        {
+            if (panelInstance != null) Destroy(panelInstance);
+            panelInstance = null;
+        }
+
+        void StartIntro(bool replay)
         {
             if (introPlayer != null)
             {
+                IntroPlayer.IntroFinished -= OnIntroFinished;
                 IntroPlayer.IntroFinished += OnIntroFinished;
                 introPlayer.gameObject.SetActive(true);
-                introPlayer.Play();
+                introPlayer.enabled = true;
+                if (replay) introPlayer.Replay();
+                else introPlayer.Play();
                 return;
             }
 

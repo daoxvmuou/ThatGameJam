@@ -280,7 +280,7 @@ namespace ThatGameJam.Level.EditorTools
         [MenuItem("Tools/横版跳跃/⑫ 接入青蛙对话系统", false, 12)]
         public static void WireDialogueSystem()
         {
-            const string scriptPath = "Assets/Data/Dialogue/FrogConversations.json";
+            const string scriptPath = "Assets/Data/Dialogue/FrogConversations.en.json";
             const string frogBubblePath = "Assets/Arts/Prefab/Character/FrogBubble.prefab";
             const string playerBubblePath = "Assets/Arts/Prefab/Character/PlayerBubble.prefab";
 

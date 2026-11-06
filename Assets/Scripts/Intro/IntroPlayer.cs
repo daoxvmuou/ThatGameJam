@@ -91,6 +91,17 @@ namespace ThatGameJam.Intro
             started = true;
         }
 
+        public void Replay()
+        {
+            Cleanup();
+            started = false;
+            finished = false;
+            playStartTime = 0f;
+            requestTime = 0f;
+            enabled = true;
+            Play();
+        }
+
         public void Skip()
         {
             Finish();

@@ -49,7 +49,7 @@ namespace ThatGameJam
 
         void OnToggleMusic()
         {
-            AudioListener.volume = AudioListener.volume > 0f ? 0f : 1f;
+            AudioVolumeSettings.ToggleMute();
         }
 
         void Bind(string buttonName, UnityEngine.Events.UnityAction action)

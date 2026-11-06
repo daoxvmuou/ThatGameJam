@@ -8,9 +8,12 @@ namespace ThatGameJam
         public static MusicPlayer Instance { get; private set; }
 
         private AudioSource source;
+        private float musicVolume = 1f;
+        private float trackVolume = 1f;
 
         public AudioClip Current => source != null ? source.clip : null;
         public bool IsPlaying => source != null && source.isPlaying;
+        public float Volume => musicVolume;
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         static void Bootstrap()
@@ -46,14 +49,16 @@ namespace ThatGameJam
                 return;
             }
 
+            trackVolume = Mathf.Clamp01(volume);
+
             if (source.clip == clip && source.isPlaying)
             {
-                source.volume = volume;
+                ApplyVolume();
                 return;
             }
 
             source.clip = clip;
-            source.volume = volume;
+            ApplyVolume();
             source.Play();
         }
 
@@ -66,7 +71,13 @@ namespace ThatGameJam
 
         public void SetVolume(float volume)
         {
-            if (source != null) source.volume = Mathf.Clamp01(volume);
+            musicVolume = Mathf.Clamp01(volume);
+            ApplyVolume();
+        }
+
+        void ApplyVolume()
+        {
+            if (source != null) source.volume = trackVolume * musicVolume;
         }
     }
 }

@@ -41,13 +41,23 @@ namespace ThatGameJam.Dialogue
         [SerializeField] private SpriteRenderer frogPortrait;
         [SerializeField] private Camera viewCamera;
 
+        [Header("气泡高度")]
+        [Tooltip("视口高度比例，0 为底部，1 为顶部。")]
+        [SerializeField, Range(0f, 1f)] private float bubbleViewportHeight = 0.16f;
+        public Vector3 BubbleScale;
+
+        [Header("交互提示")]
+        [SerializeField] private float interactionPromptHeight = 1.8f;
+        [SerializeField] private float interactionPromptScale = 0.1f;
+
         private Script dialogueScript;
         private FrogDialogue currentFrog;
         private Conversation currentConversation;
         private int nextLine;
         private bool isTalking;
         private bool playerWasEnabled;
-        private float bubbleWidth;
+        private TextMeshPro interactionPrompt;
+        private FrogDialogue promptFrog;
 
         void Awake()
         {
@@ -77,8 +87,7 @@ namespace ThatGameJam.Dialogue
                 return;
             }
 
-            bubbleWidth = Mathf.Max(playerBubble.GetComponent<SpriteRenderer>().sprite.bounds.size.x,
-                frogBubble.GetComponent<SpriteRenderer>().sprite.bounds.size.x);
+            CreateInteractionPrompt();
         }
 
         static PlayerController FindPlayer()
@@ -97,6 +106,8 @@ namespace ThatGameJam.Dialogue
         {
             if (player == null) player = FindPlayer();
 
+            UpdateInteractionPrompt();
+
             if (isTalking && (currentFrog == null || !currentFrog.isActiveAndEnabled || player == null))
             {
                 EndConversation();
@@ -112,35 +123,26 @@ namespace ThatGameJam.Dialogue
 
         void LateUpdate()
         {
+            if (interactionPrompt != null && promptFrog != null && promptFrog.isActiveAndEnabled)
+            {
+                interactionPrompt.transform.position = promptFrog.transform.position + Vector3.up * interactionPromptHeight;
+            }
+
             if (!isTalking || viewCamera == null) return;
 
-            // 两个世界空间气泡并排放在视野底部，窄屏时一起缩小。
-            float width = viewCamera.orthographicSize * viewCamera.aspect * 2f;
-            float scale = Mathf.Min(0.5f, width * 0.44f / bubbleWidth);
+            // 两个世界空间气泡并排放在视野底部，保持原始缩放。
             float depth = -viewCamera.transform.position.z;
-            playerBubble.transform.position = viewCamera.ViewportToWorldPoint(new Vector3(0.26f, 0.16f, depth));
-            frogBubble.transform.position = viewCamera.ViewportToWorldPoint(new Vector3(0.74f, 0.16f, depth));
-            playerBubble.transform.localScale = new Vector3(scale, scale, 1f);
-            frogBubble.transform.localScale = new Vector3(scale, scale, 1f);
+            playerBubble.transform.position = viewCamera.ViewportToWorldPoint(new Vector3(0.26f, bubbleViewportHeight, depth));
+            frogBubble.transform.position = viewCamera.ViewportToWorldPoint(new Vector3(0.74f, bubbleViewportHeight, depth));
+            playerBubble.transform.localScale = BubbleScale;
+            frogBubble.transform.localScale = BubbleScale;
         }
 
         void TryStartConversation()
         {
             if (player == null || !player.isActiveAndEnabled) return;
 
-            FrogDialogue nearest = null;
-            float nearestDistance = interactionDistance * interactionDistance;
-            foreach (FrogDialogue frog in FindObjectsOfType<FrogDialogue>())
-            {
-                if (!frog.isActiveAndEnabled || frog.Sprite == null) continue;
-                float distance = ((Vector2)(frog.transform.position - player.transform.position)).sqrMagnitude;
-                if (distance <= nearestDistance)
-                {
-                    nearestDistance = distance;
-                    nearest = frog;
-                }
-            }
-
+            FrogDialogue nearest = FindNearestFrog();
             if (nearest == null) return;
             Conversation conversation = Array.Find(dialogueScript.conversations,
                 item => item.number == nearest.DialogueNumber);
@@ -150,6 +152,7 @@ namespace ThatGameJam.Dialogue
             currentConversation = conversation;
             nextLine = 0;
             isTalking = true;
+            HideInteractionPrompt();
             playerWasEnabled = player.enabled;
             player.enabled = false;
             playerText.text = string.Empty;
@@ -193,9 +196,76 @@ namespace ThatGameJam.Dialogue
             if (frogBubble != null) frogBubble.SetActive(false);
         }
 
+        void CreateInteractionPrompt()
+        {
+            GameObject promptObject = new GameObject("FrogInteractionPrompt", typeof(TextMeshPro));
+            interactionPrompt = promptObject.GetComponent<TextMeshPro>();
+            interactionPrompt.text = "按 E 对话";
+            interactionPrompt.alignment = TextAlignmentOptions.Center;
+            interactionPrompt.font = frogText.font;
+            interactionPrompt.fontSize = 36f;
+            interactionPrompt.rectTransform.sizeDelta = new Vector2(60f, 12f);
+            interactionPrompt.enableWordWrapping = false;
+            interactionPrompt.raycastTarget = false;
+            interactionPrompt.color = Color.white;
+            interactionPrompt.outlineWidth = 0.2f;
+            interactionPrompt.outlineColor = Color.black;
+            interactionPrompt.transform.localScale = Vector3.one * interactionPromptScale;
+
+            MeshRenderer renderer = promptObject.GetComponent<MeshRenderer>();
+            if (renderer != null) renderer.sortingOrder = 300;
+            HideInteractionPrompt();
+        }
+
+        void UpdateInteractionPrompt()
+        {
+            if (interactionPrompt == null) return;
+
+            InputManager input = InputManager.Instance;
+            FrogDialogue nearest = !isTalking && Time.timeScale > 0f && input != null && input.isActiveAndEnabled &&
+                player != null && player.isActiveAndEnabled && player.ControlEnabled
+                ? FindNearestFrog()
+                : null;
+
+            promptFrog = nearest;
+            interactionPrompt.gameObject.SetActive(nearest != null);
+        }
+
+        FrogDialogue FindNearestFrog()
+        {
+            FrogDialogue nearest = null;
+            float nearestDistance = interactionDistance * interactionDistance;
+            foreach (FrogDialogue frog in FindObjectsOfType<FrogDialogue>())
+            {
+                if (!frog.isActiveAndEnabled || frog.Sprite == null) continue;
+                Conversation conversation = Array.Find(dialogueScript.conversations,
+                    item => item != null && item.number == frog.DialogueNumber);
+                if (conversation == null || conversation.lines == null || conversation.lines.Length == 0) continue;
+                float distance = ((Vector2)(frog.transform.position - player.transform.position)).sqrMagnitude;
+                if (distance > nearestDistance) continue;
+
+                nearestDistance = distance;
+                nearest = frog;
+            }
+
+            return nearest;
+        }
+
+        void HideInteractionPrompt()
+        {
+            promptFrog = null;
+            if (interactionPrompt != null) interactionPrompt.gameObject.SetActive(false);
+        }
+
         void OnDisable()
         {
             EndConversation();
+            HideInteractionPrompt();
+        }
+
+        void OnDestroy()
+        {
+            if (interactionPrompt != null) Destroy(interactionPrompt.gameObject);
         }
     }
 }

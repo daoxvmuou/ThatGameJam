@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 
 namespace ThatGameJam
@@ -20,6 +21,11 @@ namespace ThatGameJam
         [Header("表现")]
         [SerializeField] private bool flipSprite = true;
 
+        [Header("教学提示")]
+        [SerializeField] private TMP_FontAsset tutorialPromptFont;
+        [SerializeField] private float tutorialPromptHeight = 2.2f;
+        [SerializeField] private float tutorialPromptScale = 0.1f;
+
         private static readonly int IsMove = Animator.StringToHash("IsMove");
 
         [Header("地面检测")]
@@ -38,6 +44,7 @@ namespace ThatGameJam
         private float bufferCounter;
         private bool jumpHeld;
         private bool controlEnabled = true;
+        private TextMeshPro tutorialPrompt;
 
         public bool IsGrounded { get; private set; }
         public bool ControlEnabled => controlEnabled;
@@ -49,6 +56,7 @@ namespace ThatGameJam
             spriteRenderer = GetComponentInChildren<SpriteRenderer>();
             bodyCollider = GetComponent<Collider2D>();
             body.constraints |= RigidbodyConstraints2D.FreezeRotation;
+            CreateTutorialPrompt();
         }
 
         void Update()
@@ -66,6 +74,12 @@ namespace ThatGameJam
 
             horizontal = input.Horizontal;
             jumpHeld = input.JumpHeld;
+
+            if (Time.timeScale > 0f)
+            {
+                if (Mathf.Abs(horizontal) > 0.01f) input.RegisterMovement();
+                if (input.JumpPressed) input.RegisterJump();
+            }
 
             if (input.JumpPressed && Time.timeScale > 0f) bufferCounter = jumpBufferTime;
             else bufferCounter -= Time.deltaTime;
@@ -185,6 +199,58 @@ namespace ThatGameJam
             bufferCounter = 0f;
             if (body != null) body.velocity = new Vector2(0f, body.velocity.y);
             if (animator != null) animator.SetBool(IsMove, false);
+            if (tutorialPrompt != null) tutorialPrompt.gameObject.SetActive(false);
+        }
+
+        void LateUpdate()
+        {
+            UpdateTutorialPrompt();
+        }
+
+        void CreateTutorialPrompt()
+        {
+            GameObject promptObject = new GameObject("MovementTutorialPrompt", typeof(TextMeshPro));
+            tutorialPrompt = promptObject.GetComponent<TextMeshPro>();
+            tutorialPrompt.font = tutorialPromptFont;
+            tutorialPrompt.alignment = TextAlignmentOptions.Center;
+            tutorialPrompt.fontSize = 36f;
+            tutorialPrompt.rectTransform.sizeDelta = new Vector2(60f, 16f);
+            tutorialPrompt.enableWordWrapping = false;
+            tutorialPrompt.raycastTarget = false;
+            tutorialPrompt.color = Color.white;
+            tutorialPrompt.outlineWidth = 0.2f;
+            tutorialPrompt.outlineColor = Color.black;
+            tutorialPrompt.transform.localScale = Vector3.one * tutorialPromptScale;
+
+            MeshRenderer renderer = promptObject.GetComponent<MeshRenderer>();
+            if (renderer != null) renderer.sortingOrder = 300;
+            UpdateTutorialPrompt();
+        }
+
+        void UpdateTutorialPrompt()
+        {
+            if (tutorialPrompt == null) return;
+
+            InputManager input = InputManager.Instance;
+            if (!isActiveAndEnabled || !controlEnabled || Time.timeScale <= 0f || input == null || !input.isActiveAndEnabled ||
+                (input.MovementUsed && input.JumpUsed))
+            {
+                tutorialPrompt.gameObject.SetActive(false);
+                return;
+            }
+
+            string text = string.Empty;
+            if (!input.MovementUsed) text = "A/D 移动";
+            if (!input.JumpUsed) text += (text.Length > 0 ? "\n" : string.Empty) + "W/空格 跳跃";
+
+            tutorialPrompt.text = text;
+            tutorialPrompt.transform.position = transform.position + Vector3.up * tutorialPromptHeight;
+            tutorialPrompt.gameObject.SetActive(text.Length > 0);
+        }
+
+        void OnDestroy()
+        {
+            if (tutorialPrompt != null) Destroy(tutorialPrompt.gameObject);
         }
     }
 }

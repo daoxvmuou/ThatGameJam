@@ -17,6 +17,15 @@ namespace ThatGameJam
             LevelController controller = LevelController.Instance;
             if (controller == null) return;
 
+#if UNITY_EDITOR
+            if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
+            {
+                int nextIndex = controller.CurrentIndex + 1;
+                if (nextIndex < controller.LevelCount) controller.Load(nextIndex);
+                return;
+            }
+#endif
+
             for (int i = 0; i < levelKeys.Length; i++)
             {
                 if (Input.GetKeyDown(levelKeys[i]))

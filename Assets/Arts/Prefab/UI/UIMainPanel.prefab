@@ -1118,6 +1118,8 @@ MonoBehaviour:
   musicImage: {fileID: 7638994324909525428}
   musicOnSprite: {fileID: 21300000, guid: 8b8aa8196eca78a4295ee407435e16a2, type: 3}
   musicOffSprite: {fileID: 21300000, guid: 9cb2f6d4118993d4ba98d02686baadcb, type: 3}
+  heartPopupSprite: {fileID: 21300000, guid: bb317a98ef6f7c7478e521f69884e18b, type: 3}
+  settingsPanelPrefab: {fileID: 3762023411817560317, guid: cac40a48911312c4c9d2ed423797c609, type: 3}
 --- !u!1 &7351147187086954689
 GameObject:
   m_ObjectHideFlags: 0

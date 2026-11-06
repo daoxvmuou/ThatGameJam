@@ -87,6 +87,13 @@ namespace ThatGameJam
 
         Vector3 ResolveSpawnPosition()
         {
+            LevelController controller = LevelController.Instance;
+            if (controller != null && controller.Root != null && controller.Root.Platform != null)
+            {
+                Transform respawn = controller.Root.Platform.transform.Find("Respawn");
+                if (respawn != null) return respawn.position;
+            }
+
             if (spawnAtLevelLeftBottom)
             {
                 return new Vector3(levelBounds.min.x + horizontalInset, levelBounds.max.y + verticalInset, 0f);
